@@ -10,6 +10,9 @@ import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
+import LogoutButton from '~/components/LogoutButton'; // Import the LogoutButton component
+import { useAuthStore } from '~/store/auth';
+import { View } from 'lucide-react-native';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -29,6 +32,7 @@ export default function RootLayout() {
   const hasMounted = React.useRef(false);
   const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
+  const { token } = useAuthStore();
 
   useIsomorphicLayoutEffect(() => {
     if (hasMounted.current) {
@@ -50,7 +54,13 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack screenOptions={{ headerShown: true, title: 'Orça Mais', headerRight: () => <ThemeToggle /> }}>
+      <Stack screenOptions={{
+        headerShown: true, title: 'Orça Mais', headerRight: () => (token ? <>
+          <LogoutButton />
+          <View className='w-1' />
+          <ThemeToggle />
+        </> : <ThemeToggle />)
+      }}>
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(tabs)" />
       </Stack>
@@ -58,7 +68,6 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
-
 
 const useIsomorphicLayoutEffect =
   Platform.OS === 'web' && typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect;
