@@ -29,27 +29,46 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const { token, user } = response.data.data;
 
       if (!token || !user) {
-        console.error("Invalid response from server");
+        throw new Error("Invalid response from server");
       }
 
       set({ token, user });
 
-      await SecureStore.setItem("token", token);
-      await SecureStore.setItem("user", JSON.stringify(user));
-    } catch (error) {
-      console.error("Login failed:", error);
-      throw error;
+      await SecureStore.setItemAsync("token", token);
+      await SecureStore.setItemAsync("user", JSON.stringify(user));
+    } catch (error: any) {
+      console.log(error.message);
     }
   },
   signup: async (email: string, password: string, name: string) => {
-    await api.post("/api/auth/signup", {
-      user: { email, password, full_name: name },
-    });
+    try {
+      const response = await api.post("/api/auth/signup", {
+        user: { email, password, full_name: name },
+      });
+
+      return response.data;
+    } catch (error: any) {
+      console.error(
+        "Signup failed:",
+        error.response?.data?.message || error.message
+      );
+      throw error;
+    }
   },
   logout: async () => {
-    await api.delete("/api/auth/logout", {
-      headers: { Authorization: `Bearer ${get().token}` },
-    });
+    if (!get().token) return; // Evita requisições desnecessárias
+
+    try {
+      await api.delete("/api/auth/logout", {
+        headers: { Authorization: `Bearer ${get().token}` },
+      });
+    } catch (error: any) {
+      console.error(
+        "Logout failed:",
+        error.response?.data?.message || error.message
+      );
+    }
+
     set({ token: null, user: null });
     await SecureStore.deleteItemAsync("token");
     await SecureStore.deleteItemAsync("user");
