@@ -13,6 +13,7 @@ import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import LogoutButton from '~/components/LogoutButton'; // Import the LogoutButton component
 import { useAuthStore } from '~/store/auth';
 import { View } from 'lucide-react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -54,17 +55,19 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <Stack screenOptions={{
-        headerShown: true, title: 'Orça Mais', headerRight: () => (token ? <>
-          <LogoutButton />
-          <View className='w-1' />
-          <ThemeToggle />
-        </> : <ThemeToggle />)
-      }}>
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="(tabs)" />
-      </Stack>
-      <PortalHost />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Stack screenOptions={{
+          headerShown: true, title: 'Orça Mais', headerRight: () => (token ? <>
+            <LogoutButton />
+            <View className='w-1' />
+            <ThemeToggle />
+          </> : <ThemeToggle />)
+        }}>
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(tabs)" />
+        </Stack>
+        <PortalHost />
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 }
