@@ -1182,6 +1182,13 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.9.tgz#50dea3616bc8191fb8e112283b49eaff03e78429"
   integrity sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==
 
+"@hookform/resolvers@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-4.1.3.tgz#97a20cc0e88d3b66c50e1e9fd6e089a94c689e07"
+  integrity sha512-Jsv6UOWYTrEFJ/01ZrnwVXs7KDvP8XIo115i++5PWvNkNvkrsTfGiLS6w+eJ57CYtUtDQalUWovCZDHFJ8u1VQ==
+  dependencies:
+    "@standard-schema/utils" "^0.3.0"
+
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/@isaacs/cliui/-/cliui-8.0.2.tgz#b37667b7bc181c168782259bab42474fbf52b550"
@@ -1403,6 +1410,13 @@
   integrity sha512-EJUrI8yYh7WOjNOqpoJaf1jlFIH2LvtgAl+YcFqNCa+4hj64ZXmPkAKOFs/ukjz3byN6bdb/AVUqHkI8/uWWMA==
   dependencies:
     "@radix-ui/react-use-layout-effect" "1.1.0"
+
+"@radix-ui/react-label@^2.1.0":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-label/-/react-label-2.1.2.tgz#994a5d815c2ff46e151410ae4e301f1b639f9971"
+  integrity sha512-zo1uGMTaNlHehDyFQcDZXRJhUPDuukcnHz0/jnrup0JA6qL+AFpAnty+7VKa9esuU5xTblAZzTGYJKSKaBxBhw==
+  dependencies:
+    "@radix-ui/react-primitive" "2.0.2"
 
 "@radix-ui/react-popper@1.2.2":
   version "1.2.2"
@@ -1840,6 +1854,15 @@
   dependencies:
     "@rn-primitives/types" "1.1.0"
 
+"@rn-primitives/label@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@rn-primitives/label/-/label-1.1.0.tgz#aa5533eb7920ddcc5e3358a4d46e66e1db7142f0"
+  integrity sha512-wNxXu45wzE12M0LYPR6g2DYVZsD4zf9EiXecP46pJfC8XEhUPhcgzAE8oa1xfEUU+P8O29ZIWoK/CPtAodFBfw==
+  dependencies:
+    "@radix-ui/react-label" "^2.1.0"
+    "@rn-primitives/slot" "1.1.0"
+    "@rn-primitives/types" "1.1.0"
+
 "@rn-primitives/portal@~1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rn-primitives/portal/-/portal-1.1.0.tgz#73b43f5b05ec5e0cda5981fa2beec247dfdd635a"
@@ -1856,7 +1879,7 @@
     "@rn-primitives/slot" "1.1.0"
     "@rn-primitives/types" "1.1.0"
 
-"@rn-primitives/slot@1.1.0", "@rn-primitives/slot@~1.1.0":
+"@rn-primitives/slot@1.1.0", "@rn-primitives/slot@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rn-primitives/slot/-/slot-1.1.0.tgz#954086820fa71ddcda948e5b2b34c0bfa1cad4d4"
   integrity sha512-/6LkEPMoGGyJiCAYo3MTCy9letbH6SIm5Dw6wal/ypq3Jvar9llYJstIP2KSZNhx3PmZMN1a581KVgNZ2Jyt5g==
@@ -1871,7 +1894,7 @@
     "@rn-primitives/slot" "1.1.0"
     "@rn-primitives/types" "1.1.0"
 
-"@rn-primitives/types@1.1.0", "@rn-primitives/types@~1.1.0":
+"@rn-primitives/types@1.1.0", "@rn-primitives/types@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@rn-primitives/types/-/types-1.1.0.tgz#2b7b0c2599dfe46329867d570f6ba8d0608f9843"
   integrity sha512-duS4La965KsVVAeytcSFDJUafw6ZScvejgxlFkwqzW06pDBRMxwfunmZmf3JZ82P/2xaEVPIGseeyblertC/+g==
@@ -1902,6 +1925,11 @@
   integrity sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==
   dependencies:
     "@sinonjs/commons" "^3.0.0"
+
+"@standard-schema/utils@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@standard-schema/utils/-/utils-0.3.0.tgz#3d5e608f16c2390c10528e98e59aef6bf73cae7b"
+  integrity sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==
 
 "@types/babel__core@^7.1.14":
   version "7.20.5"
@@ -5649,6 +5677,11 @@ react-helmet-async@^1.3.0:
     react-fast-compare "^3.2.0"
     shallowequal "^1.1.0"
 
+react-hook-form@^7.54.2:
+  version "7.54.2"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.54.2.tgz#8c26ed54c71628dff57ccd3c074b1dd377cfb211"
+  integrity sha512-eHpAUgUjWbZocoQYUHposymRb4ZP6d0uwUnooL2uOybA9/3tPUvoAKqEWK1WaSiTxxOfTpffNZP7QwlnM3/gEg==
+
 react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -6992,6 +7025,11 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zod@^3.24.2:
+  version "3.24.2"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.24.2.tgz#8efa74126287c675e92f46871cfc8d15c34372b3"
+  integrity sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==
 
 zustand@^4.4.7:
   version "4.5.6"

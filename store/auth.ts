@@ -10,6 +10,8 @@ interface User {
 interface AuthState {
   token: string | null;
   user: User | null;
+  message: { type: "error" | "success" | "warning"; text: string };
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, name: string) => Promise<void>;
   logout: () => Promise<void>;
@@ -20,7 +22,10 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set, get) => ({
   token: null,
   user: null,
+  message: { type: "success", text: "" },
+  isLoading: false,
   login: async (email: string, password: string) => {
+    set({ isLoading: true, message: { type: "success", text: "" } });
     try {
       const response = await api.post("/api/auth/login", {
         user: { email, password },
@@ -32,41 +37,62 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         throw new Error("Invalid response from server");
       }
 
-      set({ token, user });
+      set({ token, user, isLoading: false });
 
       await SecureStore.setItemAsync("token", token);
       await SecureStore.setItemAsync("user", JSON.stringify(user));
     } catch (error: any) {
-      console.log(error.message);
+      set({
+        message: {
+          type: "error",
+          text: "Falha no login. Verifique suas credenciais e tente novamente.",
+        },
+        isLoading: false,
+      });
+      throw new Error(
+        error.response?.data?.message || error.message || "Erro no cadastro"
+      );
     }
   },
   signup: async (email: string, password: string, name: string) => {
+    set({ isLoading: true, message: { type: "success", text: "" } });
     try {
       const response = await api.post("/api/auth/signup", {
         user: { email, password, full_name: name },
       });
 
+      const { token, user } = response.data.data;
+
+      if (!token || !user) {
+        throw new Error("Invalid response from server");
+      }
+
+      set({ token, user, isLoading: false });
+
       return response.data;
     } catch (error: any) {
-      console.error(
-        "Signup failed:",
-        error.response?.data?.message || error.message
+      set({
+        message: {
+          type: "error",
+          text: "Falha no cadastro. Verifique suas credenciais e tente novamente.",
+        },
+        isLoading: false,
+      });
+      throw new Error(
+        error.response?.data?.errors ||
+          error.response?.data?.error ||
+          error.message ||
+          "Erro no cadastro"
       );
-      throw error;
     }
   },
   logout: async () => {
-    if (!get().token) return; // Evita requisições desnecessárias
-
     try {
       await api.delete("/api/auth/logout", {
         headers: { Authorization: `Bearer ${get().token}` },
       });
     } catch (error: any) {
-      console.error(
-        "Logout failed:",
-        error.response?.data?.message || error.message
-      );
+      console.log("Erro ao fazer logout:", error);
     }
 
     set({ token: null, user: null });

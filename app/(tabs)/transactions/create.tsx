@@ -6,7 +6,7 @@ export default function CreateTransactionScreen() {
     return (
         <View>
             <Text>Create Transaction</Text>
-            <Link href="/(auth)/login">Back to Transactions</Link>
+            <Link href="/(auth)/login">Login</Link>
         </View>
     )
 }

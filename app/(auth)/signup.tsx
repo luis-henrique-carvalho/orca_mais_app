@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Button } from 'react-native';
 import { useAuthStore } from '~/store/auth';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+import RegisterForm from './components/forms/RegisterForm';
 
 export default function SignupScreen() {
     const [email, setEmail] = useState('');
@@ -22,10 +23,8 @@ export default function SignupScreen() {
     return (
         <View>
             <Text>Signup</Text>
-            <TextInput placeholder="Name" value={name} onChangeText={setName} />
-            <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-            <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
-            <Button title="Signup" onPress={handleSignup} />
+            <RegisterForm />
+            <Link href="/(auth)/login">Login</Link>
         </View>
     );
 }
