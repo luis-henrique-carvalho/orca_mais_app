@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Ionicons } from "@expo/vector-icons";
 import { useAuthStore } from '~/store/auth';
 import { useRouter } from 'expo-router';
+import { WalletMinimal, Home } from "lucide-react-native";
 
 export default function TabLayout() {
     const { token } = useAuthStore();
@@ -19,7 +20,7 @@ export default function TabLayout() {
                     title: "Início",
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="home-outline" color={color} size={size} />
+                        <Home color={color} size={size} />
                     ),
                 }}
             />
@@ -29,7 +30,7 @@ export default function TabLayout() {
                     title: "Transações",
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="wallet-outline" color={color} size={size} />
+                        <WalletMinimal color={color} size={size} />
                     ),
                 }}
             />
