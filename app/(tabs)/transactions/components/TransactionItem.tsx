@@ -2,16 +2,10 @@ import { View, Text } from "react-native";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { TrendingUp, TrendingDown } from "lucide-react-native";
 import { Link } from "expo-router";
+import { Transaction } from "../types";
 
 interface TransactionItemProps {
-    transaction: {
-        id: string;
-        amount: string;
-        category: { id: string; name: string };
-        created_at: string;
-        name: string;
-        transaction_type: "income" | "expense";
-    };
+    transaction: Transaction;
 }
 
 export function TransactionItem({ transaction }: TransactionItemProps) {
@@ -19,7 +13,7 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
         <Card className="mb-4">
             <CardHeader className="flex-row justify-between items-center">
                 <CardTitle className="text-lg">{transaction.name}</CardTitle>
-                <Link href={`/tabs/transactions/${transaction.id}`} className="text-primary text-md">
+                <Link href={{ pathname: "/(tabs)/transactions/[id]", params: { id: transaction.id } }} className="text-primary text-md">
                     Ver detalhes
                 </Link>
             </CardHeader>

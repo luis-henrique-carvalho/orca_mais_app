@@ -2,11 +2,7 @@ import { View } from "react-native";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { ScrollView } from "react-native-gesture-handler";
 import { Link } from "expo-router";
-
-interface Category {
-    id: string;
-    name: string;
-}
+import { Category } from "../types";
 
 interface TransactionFilterProps {
     categories: Category[];
