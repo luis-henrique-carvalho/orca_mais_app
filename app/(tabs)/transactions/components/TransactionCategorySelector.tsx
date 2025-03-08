@@ -4,25 +4,31 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Link } from "expo-router";
 import { Category } from "../types";
 
-interface TransactionFilterProps {
-    categories: Category[];
-    selectedCategory: string | undefined;
-    setSelectedCategory: (value: string | undefined) => void;
-    contentInsets: object;
+interface ContentInsets {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
 }
 
-export function TransactionFilter({ categories, selectedCategory, setSelectedCategory, contentInsets }: TransactionFilterProps) {
+interface TransactionCategorySelectorProps {
+    categories: Category[];
+    setSelectedCategory: (value: string | undefined) => void;
+    contentInsets: ContentInsets;
+    withCreateTransaction?: boolean;
+    withCreateLink?: boolean;
+}
+
+export function TransactionCategorySelector({ categories, setSelectedCategory, contentInsets, withCreateLink }: TransactionCategorySelectorProps) {
     return (
         <View className="mb-4 flex flex-row items-center justify-between w-full">
             <Select
-                onValueChange={(option) => option && setSelectedCategory(option.value)}
-                value={{ value: selectedCategory || "", label: "" }}
-                defaultValue={{ value: "", label: "Selecione uma categoria" }}
+                onValueChange={(option) => setSelectedCategory(option?.value)}
             >
-                <SelectTrigger className="w-[250px]">
+                <SelectTrigger className={withCreateLink ? "w-[250px]" : "w-full"}>
                     <SelectValue placeholder="Selecione uma categoria" />
                 </SelectTrigger>
-                <SelectContent insets={contentInsets} className="w-[250px]">
+                <SelectContent insets={contentInsets} className={withCreateLink ? "w-[250px]" : "w-full"}>
                     <ScrollView className="max-h-72 w-full">
                         <SelectGroup>
                             <SelectLabel>Categorias</SelectLabel>
@@ -36,9 +42,14 @@ export function TransactionFilter({ categories, selectedCategory, setSelectedCat
                     </ScrollView>
                 </SelectContent>
             </Select>
-            <Link href="/(tabs)/transactions/create" className="text-primary text-md">
-                Criar transação
-            </Link>
-        </View>
+
+            {
+                withCreateLink && (
+                    <Link href="/(tabs)/transactions/create" className="text-primary text-md">
+                        Criar transação
+                    </Link>
+                )
+            }
+        </View >
     );
 }

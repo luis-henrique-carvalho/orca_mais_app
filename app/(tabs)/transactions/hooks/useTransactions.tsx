@@ -1,7 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import api from "~/lib/api";
 import { useAuthStore } from "~/store/auth";
 import { Category, Transaction } from "../types";
+import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { TransactionFormData } from "../schemas/transactionSchema";
 
 export function useTransactions() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -12,6 +15,15 @@ export function useTransactions() {
     const [search, setSearch] = useState<string>("");
     const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
     const { token } = useAuthStore();
+    const router = useRouter();
+
+    const insets = useSafeAreaInsets();
+    const contentInsets = {
+        top: insets.top,
+        bottom: insets.bottom,
+        left: 14,
+        right: 14,
+    };
 
     const fetchTransactions = useCallback(async () => {
         setLoading(true);
@@ -23,7 +35,7 @@ export function useTransactions() {
             });
             setTransactions(response.data.data);
         } catch (error) {
-            console.error("Erro ao buscar transações:", error);
+            console.log("Erro ao buscar transações:", error);
             setError("Falha ao carregar transações. Tente novamente.");
         } finally {
             setLoading(false);
@@ -37,7 +49,7 @@ export function useTransactions() {
             });
             setCategories(response.data.data);
         } catch (error) {
-            console.error("Erro ao buscar categorias:", error);
+            console.log("Erro ao buscar categorias:", error);
             setError("Falha ao carregar categorias. Tente novamente.");
         }
     }, [token]);
@@ -51,12 +63,33 @@ export function useTransactions() {
             });
             setTransaction(response.data.data);
         } catch (error) {
-            console.error("Erro ao buscar detalhes da transação:", error);
+            console.log("Erro ao buscar detalhes da transação:", error);
             setError("Falha ao carregar detalhes da transação.");
         } finally {
             setLoading(false);
         }
     }, [token]);
+
+    const createTransaction = async (data: TransactionFormData) => {
+        setLoading(true);
+        setError(null);
+        try {
+            await api.post("/api/v1/transactions", data, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            router.replace("/(tabs)/transactions");
+        } catch (error) {
+            console.log("Erro ao criar transação:", error);
+            setError("Falha ao criar transação. Tente novamente.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const resetFilters = () => {
+        setSearch("");
+        setSelectedCategory(undefined);
+    }
 
     return {
         transactions,
@@ -71,6 +104,10 @@ export function useTransactions() {
         fetchTransactionDetails,
         fetchTransactions,
         fetchCategories,
+        createTransaction,
+        resetFilters,
+        contentInsets,
+        insets,
         token
     };
 }

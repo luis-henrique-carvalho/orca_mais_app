@@ -12,7 +12,7 @@ export default function LogoutButton() {
             await logout();
             router.replace('/(auth)/login');
         } catch (error) {
-            console.error('Logout failed', error);
+            console.log('Logout failed', error);
         }
     };
 
