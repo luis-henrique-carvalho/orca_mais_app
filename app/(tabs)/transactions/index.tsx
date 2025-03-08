@@ -1,5 +1,4 @@
 import { View, Text, FlatList, ActivityIndicator, RefreshControl } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TransactionItem } from "./components/TransactionItem";
 import { TransactionCategorySelector } from "./components/TransactionCategorySelector";
 import { TransactionSeach } from "./components/TransactionSeach";

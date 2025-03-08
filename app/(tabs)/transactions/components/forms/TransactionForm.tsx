@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { View, ScrollView, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import { transactionSchema, TransactionFormData, TransactionType } from "~/app/(tabs)/transactions/schemas/transactionSchema";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useTransactions } from "../../hooks/useTransactions";
 import { Textarea } from "~/components/ui/textarea";
 import { TransactionCategorySelector } from "../TransactionCategorySelector";
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 
 export default function TransactionForm() {
     const {
