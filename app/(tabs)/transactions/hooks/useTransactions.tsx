@@ -28,6 +28,7 @@ interface UseTransactionsReturn {
     loadingMore: boolean;
     onRefresh: () => Promise<void>;
     refreshing: boolean;
+    updateTransaction: (id: string, data: TransactionFormData) => Promise<void>;
 };
 
 export function useTransactions(): UseTransactionsReturn {
@@ -127,6 +128,22 @@ export function useTransactions(): UseTransactionsReturn {
         }
     }
 
+    const updateTransaction = async (id: string, data: TransactionFormData) => {
+        setLoading(true);
+        setError(null);
+        try {
+            await api.put(`/api/v1/transactions/${id}`, data, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            router.replace("/(tabs)/transactions");
+        } catch (error) {
+            console.error("Erro ao atualizar transação:", error);
+            setError("Falha ao atualizar transação. Tente novamente.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     // ------------------- Helper Functions -------------------
 
     const onRefresh = async () => {
@@ -165,5 +182,6 @@ export function useTransactions(): UseTransactionsReturn {
         loadingMore,
         onRefresh,
         refreshing,
+        updateTransaction
     };
 }

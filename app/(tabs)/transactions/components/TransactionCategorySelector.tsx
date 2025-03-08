@@ -17,13 +17,17 @@ interface TransactionCategorySelectorProps {
     contentInsets: ContentInsets;
     withCreateTransaction?: boolean;
     withCreateLink?: boolean;
+    default_Category?: Category
 }
 
-export function TransactionCategorySelector({ categories, setSelectedCategory, contentInsets, withCreateLink }: TransactionCategorySelectorProps) {
+export function TransactionCategorySelector({ categories, setSelectedCategory, contentInsets, withCreateLink, default_Category }: TransactionCategorySelectorProps) {
+    console.log(default_Category);
+
     return (
         <View className="mb-4 flex flex-row items-center justify-between w-full">
             <Select
                 onValueChange={(option) => setSelectedCategory(option?.value)}
+                defaultValue={default_Category ? { value: default_Category.id, label: default_Category.name ?? "Todas as categorias" } : undefined}
             >
                 <SelectTrigger className={withCreateLink ? "w-[250px]" : "w-full"}>
                     <SelectValue placeholder="Selecione uma categoria" />

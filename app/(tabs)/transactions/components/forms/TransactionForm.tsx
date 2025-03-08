@@ -12,24 +12,36 @@ import { useTransactions } from "../../hooks/useTransactions";
 import { Textarea } from "~/components/ui/textarea";
 import { TransactionCategorySelector } from "../TransactionCategorySelector";
 import { Link } from "expo-router";
+import { Category } from "../../types";
 
-export default function TransactionForm() {
+interface TransactionFormProps {
+    defaultValues?: TransactionFormData;
+    id?: string;
+    editCategory?: Category
+}
+
+export default function TransactionForm({ defaultValues, id, editCategory }: TransactionFormProps) {
     const {
         control,
         handleSubmit,
         formState: { errors }
     } = useForm<TransactionFormData>({
         resolver: zodResolver(transactionSchema),
+        defaultValues,
     });
 
-    const { createTransaction, categories, contentInsets, fetchCategories } = useTransactions();
+    const { createTransaction, updateTransaction, categories, contentInsets, fetchCategories } = useTransactions();
 
     useEffect(() => {
         fetchCategories();
     }, []);
 
     const onSubmit = async (data: TransactionFormData) => {
-        console.log(data);
+        if (defaultValues && id) {
+            await updateTransaction(id, data);
+            return;
+        }
+
         await createTransaction(data);
     };
 
@@ -81,7 +93,7 @@ export default function TransactionForm() {
                     control={control}
                     name="category_id"
                     render={({ field: { onChange, value } }) => (
-                        <TransactionCategorySelector categories={categories} setSelectedCategory={onChange} contentInsets={contentInsets} />
+                        <TransactionCategorySelector categories={categories} setSelectedCategory={onChange} contentInsets={contentInsets} default_Category={editCategory} />
                     )}
                 />
                 {errors.category_id && <Text className="text-red-500 text-xs mt-1">{errors.category_id.message}</Text>}
@@ -113,7 +125,10 @@ export default function TransactionForm() {
                     control={control}
                     name="transaction_type"
                     render={({ field: { onChange, value } }) => (
-                        <Select onValueChange={(option) => option && onChange(option.value)}>
+                        <Select
+                            onValueChange={(option) => option && onChange(option.value)}
+                            defaultValue={value ? { value, label: value } : undefined}
+                        >
                             <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Selecione o tipo de transação" />
                             </SelectTrigger>
@@ -132,7 +147,9 @@ export default function TransactionForm() {
 
             <View className="flex-1" />
             <Button onPress={handleSubmit(onSubmit)} className="bg-blue-600 p-3 rounded-lg flex items-center justify-center">
-                <Text className="text-white font-bold">Criar Transação</Text>
+                <Text className="text-white font-bold">
+                    {defaultValues ? "Editar Transação" : "Criar Transação"}
+                </Text>
             </Button>
 
             <Link href="/(tabs)/transactions" className="text-blue-600 text-center mt-4">

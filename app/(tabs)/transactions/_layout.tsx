@@ -6,7 +6,7 @@ export default function TransactionsLayout() {
             <Stack.Screen name="index" options={{ title: "Transações", headerShown: false }} />
             <Stack.Screen name="[id]" options={{ title: "Detalhes da Transação", headerShown: false }} />
             <Stack.Screen name="create" options={{ title: "Nova Transação", headerShown: false }} />
-            <Stack.Screen name="edit" options={{ title: "Editar Transação", headerShown: false }} />
+            <Stack.Screen name="edit/[id]" options={{ title: "Editar Transação", headerShown: false }} />
         </Stack>
     );
 }

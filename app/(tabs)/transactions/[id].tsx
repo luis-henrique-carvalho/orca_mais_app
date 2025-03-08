@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { View, Text, ActivityIndicator, TouchableOpacity } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { useTransactions } from "./hooks/useTransactions";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { useRouter } from "expo-router";
@@ -54,6 +54,9 @@ export default function TransactionDetailsScreen() {
                     <Text className="text-lg text-gray-700 mt-2">Data: <Text className="font-semibold">{new Date(transaction.created_at).toLocaleDateString()}</Text></Text>
                 </CardContent>
                 <CardFooter className="flex justify-end mt-4">
+                    <Link href={`/transactions/edit/${transaction.id}`} className="bg-blue-500 py-2 mr-4 px-6 rounded-full">
+                        <Text className="text-white font-semibold">Editar</Text>
+                    </Link>
                     <TouchableOpacity onPress={() => router.back()} className="bg-blue-500 py-2 px-6 rounded-full">
                         <Text className="text-white font-semibold">Voltar</Text>
                     </TouchableOpacity>
