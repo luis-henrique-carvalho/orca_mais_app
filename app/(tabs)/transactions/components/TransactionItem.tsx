@@ -28,7 +28,7 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
                     ) : (
                         <TrendingDown size={20} color="red" />
                     )}
-                    <Text className="text-lg font-semibold ml-2">
+                    <Text className={`${transaction.transaction_type === "income" ? "text-green-500" : "text-red-500"} text-lg font-bold ml-2`}>
                         R$ {parseFloat(transaction.amount).toFixed(2)}
                     </Text>
                 </View>
