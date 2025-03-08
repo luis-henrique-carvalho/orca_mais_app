@@ -92,7 +92,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         headers: { Authorization: `Bearer ${get().token}` },
       });
     } catch (error: any) {
-      console.log("Erro ao fazer logout:", error);
+      throw new Error(
+        error.response?.data?.message || error.message || "Erro no logout"
+      );
     }
 
     set({ token: null, user: null });

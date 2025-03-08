@@ -21,8 +21,6 @@ interface TransactionCategorySelectorProps {
 }
 
 export function TransactionCategorySelector({ categories, setSelectedCategory, contentInsets, withCreateLink, default_Category }: TransactionCategorySelectorProps) {
-    console.log(default_Category);
-
     return (
         <View className="mb-4 flex flex-row items-center justify-between w-full">
             <Select
