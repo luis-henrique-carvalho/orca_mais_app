@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text } from "react-native";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { TrendingUp, TrendingDown } from "lucide-react-native";
@@ -8,9 +9,9 @@ interface TransactionItemProps {
     transaction: Transaction;
 }
 
-export function TransactionItem({ transaction }: TransactionItemProps) {
+const TransactionItemComponent: React.FC<TransactionItemProps> = ({ transaction }) => {
     return (
-        <Card className="mb-4">
+        <Card className="mb-4" key={transaction.id}>
             <CardHeader className="flex-row justify-between items-center">
                 <CardTitle className="text-lg">{transaction.name}</CardTitle>
                 <Link href={{ pathname: "/(tabs)/transactions/[id]", params: { id: transaction.id } }} className="text-primary text-md">
@@ -35,4 +36,6 @@ export function TransactionItem({ transaction }: TransactionItemProps) {
             </CardContent>
         </Card>
     );
-}
+};
+
+export const TransactionItem = React.memo(TransactionItemComponent);

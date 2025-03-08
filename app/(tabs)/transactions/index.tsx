@@ -10,29 +10,26 @@ export default function TransactionsScreen() {
         transactions,
         categories,
         loading,
+        loadingMore,
         search,
         setSearch,
         selectedCategory,
         setSelectedCategory,
         fetchCategories,
         fetchTransactions,
-        token,
+        loadMoreTransactions,
+        hasMore,
         contentInsets,
-        insets
+        insets,
+        onRefresh,
+        refreshing,
+        token,
     } = useTransactions();
-
-    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         fetchCategories();
         fetchTransactions();
     }, [token, search, selectedCategory]);
-
-    const onRefresh = async () => {
-        setRefreshing(true);
-        await fetchTransactions();
-        setRefreshing(false);
-    };
 
     return (
         <View className="flex-1 p-4 bg-gray-100" style={{ paddingTop: insets.top }}>
@@ -48,6 +45,11 @@ export default function TransactionsScreen() {
                     renderItem={({ item }) => <TransactionItem transaction={item} />}
                     ListEmptyComponent={<Text className="text-center text-gray-500">Nenhuma transação encontrada</Text>}
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                    onEndReached={() => {
+                        if (hasMore && !loadingMore) loadMoreTransactions();
+                    }}
+                    onEndReachedThreshold={0.2}
+                    ListFooterComponent={loadingMore ? <ActivityIndicator size="small" color="#0000ff" className="mt-4" /> : null}
                 />
             )}
         </View>
