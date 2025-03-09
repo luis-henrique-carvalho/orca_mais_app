@@ -5,8 +5,11 @@ import { TransactionSeach } from "./components/TransactionSeach";
 import { useTransactions } from "./hooks/useTransactions";
 import { useEffect, useState } from "react";
 import { Text } from "~/components/ui/text";
+import { Button } from "~/components/ui/button";
+import { useRouter } from "expo-router";
 
 export default function TransactionsScreen() {
+    const router = useRouter();
     const {
         transactions,
         categories,
@@ -34,7 +37,12 @@ export default function TransactionsScreen() {
 
     return (
         <View className="flex-1 p-4 gap-4" style={{ paddingTop: insets.top }}>
-            <Text className="text-2xl font-bold">Transações</Text>
+            <View className="flex-row items-center justify-between gap-2">
+                <Text className="text-3xl font-bold">Transações</Text>
+                <Button onPress={() => router.push(`/transactions/create`)} variant={"default"} className="w-1/4">
+                    <Text>Criar</Text>
+                </Button>
+            </View>
             <View className="flex-row items-center justify-between gap-2">
                 <View className="flex-1">
                     <TransactionSeach search={search} setSearch={setSearch} />

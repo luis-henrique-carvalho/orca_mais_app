@@ -20,7 +20,7 @@ interface TransactionCategorySelectorProps {
 
 export function TransactionCategorySelector({ categories, setSelectedCategory, contentInsets, default_Category }: TransactionCategorySelectorProps) {
     return (
-        <View className="flex flex-row items-center justify-between w-full">
+        <View className="w-full">
             <Select
                 onValueChange={(option) => setSelectedCategory(option?.value)}
                 defaultValue={default_Category ? { value: default_Category.id, label: default_Category.name } : undefined}
