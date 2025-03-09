@@ -1,30 +1,42 @@
 import React from "react";
 import { View } from "react-native";
 import { TrendingUp, TrendingDown } from "lucide-react-native";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Transaction } from "../types";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
+import { Button } from "~/components/ui/button";
+import { Trash2, Info } from "lucide-react-native";
+import { useTransactions } from "../hooks/useTransactions";
 
 interface TransactionItemProps {
     transaction: Transaction;
 }
 
 const TransactionItemComponent: React.FC<TransactionItemProps> = ({ transaction }) => {
+    const router = useRouter();
+
+    const { deleteTransaction } = useTransactions()
+
     return (
         <Card className="mb-4" key={transaction.id}>
             <CardHeader className="flex-row justify-between items-center">
                 <CardTitle className="text-lg">{transaction.name}</CardTitle>
-                <Link href={{ pathname: "/(tabs)/transactions/[id]", params: { id: transaction.id } }} className="text-primary text-md">
-                    Ver detalhes
-                </Link>
+                <View className="flex-row items-center gap-2">
+                    <Button onPress={() => deleteTransaction(transaction.id)} variant={"destructive"}>
+                        <Trash2 size={20} color={"white"} />
+                    </Button>
+                    <Button onPress={() => router.push(`/transactions/${transaction.id}`)} variant="default">
+                        <Info size={20} color={"white"} />
+                    </Button>
+                </View>
             </CardHeader>
             <CardContent className="flex-row justify-between items-center">
                 <View>
                     <Text className="">{transaction.category.name}</Text>
                     <Text className="text-sm ">{new Date(transaction.created_at).toLocaleDateString()}</Text>
                 </View>
-                <View className="flex-row items-center">
+                <View className="flex-row items-center gap-2">
                     {transaction.transaction_type === "income" ? (
                         <TrendingUp size={20} color="green" />
                     ) : (

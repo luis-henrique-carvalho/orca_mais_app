@@ -26,7 +26,7 @@ export default function HomeScreen() {
 
     return (
         <ScrollView
-            className="flex-1 p-4"
+            className="flex-1 p-4 pb-10"
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
             <Text className="text-lg font-bold  mb-4">Resumo Financeiro</Text>

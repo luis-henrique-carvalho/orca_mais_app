@@ -29,6 +29,7 @@ interface UseTransactionsReturn {
     onRefresh: () => Promise<void>;
     refreshing: boolean;
     updateTransaction: (id: string, data: TransactionFormData) => Promise<void>;
+    deleteTransaction: (id: string) => Promise<void>;
 };
 
 export function useTransactions(): UseTransactionsReturn {
@@ -144,6 +145,22 @@ export function useTransactions(): UseTransactionsReturn {
         }
     }
 
+    const deleteTransaction = async (id: string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            await api.delete(`/api/v1/transactions/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            await fetchTransactions();
+        } catch (error) {
+            console.error("Erro ao deletar transação:", error);
+            setError("Falha ao deletar transação. Tente novamente.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     // ------------------- Helper Functions -------------------
 
     const onRefresh = async () => {
@@ -182,6 +199,7 @@ export function useTransactions(): UseTransactionsReturn {
         loadingMore,
         onRefresh,
         refreshing,
-        updateTransaction
+        updateTransaction,
+        deleteTransaction
     };
 }

@@ -47,7 +47,7 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="flex flex-col gap-5">
+            <ScrollView contentContainerStyle={{ gap: 10 }}>
                 {/* Campo Nome */}
                 <View>
                     <Label className=" font-semibold mb-1">Nome</Label>
@@ -138,8 +138,8 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                                 <SelectContent className="w-full">
                                     <SelectGroup>
                                         <SelectLabel>Tipo de Transação</SelectLabel>
-                                        <SelectItem value={TransactionType.income} label={TransactionType.income}>Receita</SelectItem>
-                                        <SelectItem value={TransactionType.expense} label={TransactionType.expense}>Despesa</SelectItem>
+                                        <SelectItem value={TransactionType.income} label={"Receita"}>Receita</SelectItem>
+                                        <SelectItem value={TransactionType.expense} label={"Despesa"}> Despesa</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
@@ -148,7 +148,6 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                     {errors.transaction_type && <Text className="text-destructive text-xs mt-1">{errors.transaction_type.message}</Text>}
                 </View>
 
-                <View className="flex-1" />
                 <Button onPress={handleSubmit(onSubmit)} className="bg-primary p-3 rounded-lg flex items-center justify-center">
                     <Text className=" font-bold">
                         {defaultValues ? "Editar Transação" : "Criar Transação"}
@@ -159,6 +158,6 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                     Voltar
                 </Link>
             </ScrollView>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback >
     );
 }

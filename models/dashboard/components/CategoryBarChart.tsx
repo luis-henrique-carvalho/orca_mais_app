@@ -26,7 +26,7 @@ const CategoryBarChart = ({ title, data, color }: CategoryBarChartProps) => {
                                 value: Math.abs(Number(item.total_amount)),
                                 label: item.category_name,
                                 topLabelComponent: () => (
-                                    <Text className="text-primary text-xs">{`${item.total_amount}`}</Text>
+                                    <Text className="text-foreground text-xs">{item.total_amount}</Text>
                                 ),
                             }))}
                             barWidth={60}
