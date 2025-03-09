@@ -33,8 +33,8 @@ const TransactionItemComponent: React.FC<TransactionItemProps> = ({ transaction 
             </CardHeader>
             <CardContent className="flex-row justify-between items-center">
                 <View>
-                    <Text className="">{transaction.category.name}</Text>
-                    <Text className="text-sm ">{new Date(transaction.created_at).toLocaleDateString()}</Text>
+                    <Text className="text-md">{transaction.category.name}</Text>
+                    <Text className="text-sm text-muted-foreground">{new Date(transaction.created_at).toLocaleDateString()}</Text>
                 </View>
                 <View className="flex-row items-center gap-2">
                     {transaction.transaction_type === "income" ? (
