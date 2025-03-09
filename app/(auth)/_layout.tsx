@@ -1,12 +1,22 @@
-import { Stack, Redirect } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import React from "react";
 import { useAuthStore } from '~/store/auth';
 
 export default function AuthLayout() {
     const { token } = useAuthStore();
+    const router = useRouter();
+    const hasMounted = React.useRef(false);
 
-    if (token) {
-        return <Redirect href="/(tabs)/(home)" />;
-    }
+    React.useEffect(() => {
+        if (!hasMounted.current) {
+            hasMounted.current = true;
+            return;
+        }
+
+        if (token) {
+            router.replace('/(tabs)/(home)');
+        }
+    }, [token]);
 
     return (
         <Stack screenOptions={{ headerShown: false }}>

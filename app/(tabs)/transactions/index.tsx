@@ -3,7 +3,7 @@ import { TransactionItem } from "./components/TransactionItem";
 import { TransactionCategorySelector } from "./components/TransactionCategorySelector";
 import { TransactionSeach } from "./components/TransactionSeach";
 import { useTransactions } from "./hooks/useTransactions";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useRouter } from "expo-router";
@@ -27,13 +27,12 @@ export default function TransactionsScreen() {
         insets,
         onRefresh,
         refreshing,
-        token,
     } = useTransactions();
 
     useEffect(() => {
         fetchCategories();
         fetchTransactions();
-    }, [token, search, selectedCategory]);
+    }, [search, selectedCategory]);
 
     return (
         <View className="flex-1 p-4 gap-4" style={{ paddingTop: insets.top }}>
