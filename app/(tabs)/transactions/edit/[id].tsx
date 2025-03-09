@@ -1,9 +1,10 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import TransactionForm from "../components/forms/TransactionForm";
 import { useTransactions } from "../hooks/useTransactions";
 import { useEffect } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { TransactionType } from "../schemas/transactionSchema";
+import { Text } from "~/components/ui/text";
 
 export default function EditTransactionScreen() {
     const { insets, fetchTransactionDetails, transaction } = useTransactions();
@@ -17,7 +18,7 @@ export default function EditTransactionScreen() {
 
     if (!transaction) {
         return (
-            <View className="flex-1 p-4 bg-gray-100" style={{ paddingTop: insets.top }}>
+            <View className="flex-1 p-4 " style={{ paddingTop: insets.top }}>
                 <Text className="text-2xl font-bold mb-4">Carregando...</Text>
             </View>
         );
@@ -32,7 +33,7 @@ export default function EditTransactionScreen() {
     };
 
     return (
-        <View className="flex-1 p-4 bg-gray-100" style={{ paddingTop: insets.top }}>
+        <View className="flex-1 p-4 " style={{ paddingTop: insets.top }}>
             <Text className="text-2xl font-bold mb-4">Editar Transação</Text>
             <TransactionForm defaultValues={editValues} id={transaction.id} editCategory={transaction.category} />
         </View>

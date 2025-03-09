@@ -1,4 +1,4 @@
-import { TextInput, View } from "react-native";
+import { View } from "react-native";
 import { Search } from "lucide-react-native";
 import { Input } from "~/components/ui/input";
 
@@ -9,14 +9,16 @@ interface TransactionSeachProps {
 
 export function TransactionSeach({ search, setSearch }: TransactionSeachProps) {
     return (
-        <View className="flex-row items-center bg-white rounded-lg shadow-sm mb-4">
-            <Search size={20} color="gray" className="mr-2" />
-            <TextInput
-                className="flex-1 text-gray-800"
-                placeholder="Buscar transações..."
-                value={search}
-                onChangeText={setSearch}
-            />
+        <View className="flex-row items-center rounded-lg shadow-sm">
+            <View className="flex-row items-center">
+                <Search size={20} color="gray" />
+                <Input
+                    className="flex-1 border-none"
+                    placeholder="Buscar transações..."
+                    value={search}
+                    onChangeText={setSearch}
+                />
+            </View>
         </View>
     );
 }

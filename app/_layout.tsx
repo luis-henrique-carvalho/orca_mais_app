@@ -59,7 +59,6 @@ export default function RootLayout() {
         <Stack screenOptions={{
           headerShown: true, title: 'Orça Mais', headerRight: () => (token ? <>
             <LogoutButton />
-            <View className='w-1' />
             <ThemeToggle />
           </> : <ThemeToggle />)
         }}>

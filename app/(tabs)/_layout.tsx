@@ -1,8 +1,6 @@
 import { Redirect, Tabs } from "expo-router";
 import * as React from 'react';
-import { Ionicons } from "@expo/vector-icons";
 import { useAuthStore } from '~/store/auth';
-import { useRouter } from 'expo-router';
 import { WalletMinimal, Home } from "lucide-react-native";
 
 export default function TabLayout() {

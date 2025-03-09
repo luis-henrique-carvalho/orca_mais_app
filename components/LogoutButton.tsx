@@ -17,7 +17,9 @@ export default function LogoutButton() {
         }
     };
 
-    return <Button onPress={handleLogout} variant={'destructive'} className='mr-4'>
-        <Text>Logout</Text>
-    </Button>
+    return (
+        <Button onPress={handleLogout} variant={'destructive'} className='mr-4'>
+            <Text>Logout</Text>
+        </Button>
+    )
 }
