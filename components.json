@@ -1,6 +1,18 @@
 {
+  "style": "default",
+  "rsc": true,
+  "tailwind": {
+    "config": "",
+    "css": "globals.css",
+    "baseColor": "slate",
+    "cssVariables": true
+  },
   "aliases": {
     "components": "~/components",
-    "lib": "~/lib"
-  }
+    "utils": "~/lib/utils",
+    "ui": "~/registry/new-york-v4/ui",
+    "lib": "~/lib",
+    "hooks": "~/hooks"
+  },
+  "iconLibrary": "lucide"
 }
