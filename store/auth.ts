@@ -98,6 +98,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
 
     set({ token: null, user: null });
+    await SecureStore.deleteItemAsync("token");
+    await SecureStore.deleteItemAsync("user");
   },
   setToken: (token: string) => set({ token }),
   setUser: (user: User) => set({ user }),

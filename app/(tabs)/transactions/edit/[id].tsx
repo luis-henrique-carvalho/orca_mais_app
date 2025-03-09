@@ -1,9 +1,9 @@
 import { View } from "react-native";
-import TransactionForm from "../components/forms/TransactionForm";
-import { useTransactions } from "../hooks/useTransactions";
+import TransactionForm from "~/models/transaction/components/forms/TransactionForm";
+import { useTransactions } from "~/models/transaction/hooks/useTransactions";
 import { useEffect } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { TransactionType } from "../schemas/transactionSchema";
+import { TransactionType } from "~/models/transaction/schemas/transactionSchema";
 import { Text } from "~/components/ui/text";
 
 export default function EditTransactionScreen() {

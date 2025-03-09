@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { View, ActivityIndicator, TouchableOpacity } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
-import { useTransactions } from "./hooks/useTransactions";
+import { useTransactions } from "~/models/transaction/hooks/useTransactions";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
 import { useRouter } from "expo-router";

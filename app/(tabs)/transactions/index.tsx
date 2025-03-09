@@ -1,8 +1,8 @@
 import { View, FlatList, ActivityIndicator, RefreshControl } from "react-native";
-import { TransactionItem } from "./components/TransactionItem";
-import { TransactionCategorySelector } from "./components/TransactionCategorySelector";
-import { TransactionSeach } from "./components/TransactionSeach";
-import { useTransactions } from "./hooks/useTransactions";
+import { TransactionItem } from "~/models/transaction/components/TransactionItem";
+import { TransactionCategorySelector } from "~/models/transaction/components/TransactionCategorySelector";
+import { TransactionSeach } from "~/models/transaction/components/TransactionSeach";
+import { useTransactions } from "~/models/transaction/hooks/useTransactions";
 import { useEffect } from "react";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";

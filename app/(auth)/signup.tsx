@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import { Link } from 'expo-router';
-import RegisterForm from './components/forms/RegisterForm';
+import RegisterForm from '~/models/auth/components/forms/RegisterForm';
 
 export default function SignupScreen() {
     return (

@@ -12,7 +12,6 @@ import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import LogoutButton from '~/components/LogoutButton'; // Import the LogoutButton component
 import { useAuthStore } from '~/store/auth';
-import { View } from 'lucide-react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const LIGHT_THEME: Theme = {
