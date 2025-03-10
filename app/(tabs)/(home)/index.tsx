@@ -32,11 +32,19 @@ export default function HomeScreen() {
             <Card className="rounded-lg shadow-md mb-4">
                 <CardHeader>
                     <CardTitle>Saldo Total</CardTitle>
-                    <CardDescription>R$ {total_balance}</CardDescription>
+                    <CardDescription className={`text-md ${(Number(total_balance) || 0) < 0 ? "text-destructive" : "text-primary"}`}>
+                        R$ {total_balance ?? 0}
+                    </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-row justify-between mt-2">
-                    <Text className="text-primary">Receitas: R$ {total_income}</Text>
-                    <Text className="text-destructive">Despesas: R$ {total_expense}</Text>
+                    <View>
+                        <Text className="text-md text-muted-foreground">Receitas</Text>
+                        <Text className="text-primary">R${total_income}</Text>
+                    </View>
+                    <View>
+                        <Text className="text-md text-muted-foreground">Despesas</Text>
+                        <Text className="text-destructive">R${total_expense}</Text>
+                    </View>
                 </CardContent>
             </Card>
 

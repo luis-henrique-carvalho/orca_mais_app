@@ -36,6 +36,7 @@ const CategoryBarChart = ({ title, data, color }: CategoryBarChartProps) => {
                             stepHeight={25}
                             yAxisTextStyle={{ color: isDarkColorScheme ? "#fff" : "#000" }}
                             xAxisLabelTextStyle={{ color: isDarkColorScheme ? "#fff" : "#000" }}
+                            rulesType="solid"
                         />
                     </View>
                 ) : (

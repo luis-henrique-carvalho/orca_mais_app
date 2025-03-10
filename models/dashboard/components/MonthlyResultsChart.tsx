@@ -41,6 +41,7 @@ export const MonthlyResultsChart = ({ transactionsByMonth }: MonthlyResultsChart
                         stepHeight={25}
                         yAxisTextStyle={{ color: isDarkColorScheme ? "#fff" : "#000" }}
                         xAxisLabelTextStyle={{ color: isDarkColorScheme ? "#fff" : "#000" }}
+                        rulesType="solid"
                     />
                 ) : (
                     <Text className="text-center">Nenhum dado de resultados mensais disponível.</Text>
