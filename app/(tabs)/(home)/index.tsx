@@ -1,12 +1,10 @@
 import { View, ScrollView, RefreshControl } from "react-native";
-import { BarChart } from "react-native-gifted-charts";
 import { useEffect } from "react";
-import { Transaction } from "~/models/transaction/types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
-import { useColorScheme } from "~/lib/useColorScheme";
 import { useDashboards } from "~/models/dashboard/hooks/useDashboards";
 import CategoryBarChart from "~/models/dashboard/components/CategoryBarChart";
+import MonthlyResultsChart from "~/models/dashboard/components/MonthlyResultsChart";
 
 export default function HomeScreen() {
     const {
@@ -53,6 +51,8 @@ export default function HomeScreen() {
                 data={expenses_by_category || []}
                 color="#ff0000"
             />
+
+            <MonthlyResultsChart transactionsByMonth={transactions_by_month || []} />
 
         </ScrollView>
     );

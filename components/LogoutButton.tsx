@@ -3,6 +3,7 @@ import { Button } from '~/components/ui/button';
 import { useAuthStore } from '~/store/auth';
 import { useRouter } from 'expo-router';
 import { Text } from './ui/text';
+import { LogOut } from 'lucide-react-native';
 
 export default function LogoutButton() {
     const logout = useAuthStore((state) => state.logout);
@@ -18,8 +19,8 @@ export default function LogoutButton() {
     };
 
     return (
-        <Button onPress={handleLogout} variant={'destructive'} className='mr-4'>
-            <Text>Logout</Text>
-        </Button>
+        <Button onPress={handleLogout} variant={'ghost'} className='mr-4'>
+            <LogOut size={20} color={"red"} />
+        </Button >
     )
 }

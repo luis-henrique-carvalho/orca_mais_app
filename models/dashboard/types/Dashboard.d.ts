@@ -15,5 +15,5 @@ export interface DashboardData {
   total_expense: string;
   expenses_by_category: TransactionByCategory[];
   incomes_by_category: TransactionByCategory[];
-  transactions_by_month: TransactionsByMonth;
+  transactions_by_month: TransactionsByMonth[];
 }

@@ -152,7 +152,8 @@ export function useTransactions(): UseTransactionsReturn {
             await api.delete(`/api/v1/transactions/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            await fetchTransactions();
+            // TODO: Remove transaction from list
+            router.replace("/(tabs)/transactions");
         } catch (error) {
             console.error("Erro ao deletar transação:", error);
             setError("Falha ao deletar transação. Tente novamente.");
