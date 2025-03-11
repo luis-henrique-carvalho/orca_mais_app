@@ -47,11 +47,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             full_name: full_name
         }
         try {
-            const { data } = await api.post('/auth/register', { user });
+            const { data } = await api.post('/api/auth/signup', { user });
 
             setAuthStage({ token: data.token, authenticated: true });
 
-            axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+            api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
             await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(data.token));
         } catch (error) {
