@@ -11,8 +11,8 @@ import { PortalHost } from '@rn-primitives/portal';
 import { ThemeToggle } from '~/components/ThemeToggle';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import LogoutButton from '~/components/LogoutButton'; // Import the LogoutButton component
-import { useAuthStore } from '~/store/auth';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { AuthProvider, useAuth } from '~/context/AuthContext';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -28,11 +28,11 @@ export {
   ErrorBoundary,
 } from 'expo-router';
 
+
 export default function RootLayout() {
   const hasMounted = React.useRef(false);
   const { colorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
-  const { token } = useAuthStore();
 
   useIsomorphicLayoutEffect(() => {
     if (hasMounted.current) {
@@ -52,21 +52,42 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Stack screenOptions={{
-          headerShown: true, title: 'Orça Mais', headerRight: () => (token ? <>
-            <LogoutButton />
-            <ThemeToggle />
-          </> : <ThemeToggle />)
-        }}>
-          <Stack.Screen name="(auth)" />
-          <Stack.Screen name="(tabs)" />
-        </Stack>
-        <PortalHost />
-      </GestureHandlerRootView>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <MainLayout />
+          <PortalHost />
+        </GestureHandlerRootView>
+      </ThemeProvider>
+    </AuthProvider>
+  );
+}
+
+const MainLayout = () => {
+  const { authStage } = useAuth();
+
+  React.useEffect(() => {
+    if (authStage.authenticated) {
+      console.log('User is authenticated');
+    }
+  }, [authStage.authenticated]);
+
+  console.log('authStage', authStage);
+
+  return (
+    <Stack screenOptions={{
+      headerLeft: () => null,
+      headerShown: true,
+      title: 'Orça Mais',
+      headerRight: () => (authStage.authenticated ? <>
+        <LogoutButton />
+        <ThemeToggle />
+      </> : <ThemeToggle />)
+    }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(auth)" />
+    </Stack>
   );
 }
 

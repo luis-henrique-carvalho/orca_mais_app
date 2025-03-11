@@ -1,6 +1,5 @@
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import api from "~/lib/api";
-import { useAuthStore } from "~/store/auth";
 import { DashboardData } from "../types";
 
 
@@ -20,19 +19,13 @@ export function useDashboards(): UseDashboardsReturn {
     const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
     const [refreshing, setRefreshing] = useState(false);
 
-    const { token } = useAuthStore();
 
     // ------------------- Fetching Functions -------------------
     const fetchDashboardData = useCallback(async () => {
 
         try {
             setLoading(true);
-            const { data } = await api.get("/api/v1/dashboards", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
+            const { data } = await api.get("/api/v1/dashboards")
 
             setDashboardData(data);
         }
@@ -42,7 +35,7 @@ export function useDashboards(): UseDashboardsReturn {
         finally {
             setLoading(false);
         }
-    }, [token]);
+    }, []);
 
 
     const onRefresh = async () => {

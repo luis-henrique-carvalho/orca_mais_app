@@ -4,11 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { signInSchema, signInFormData } from "~/models/auth/schemas/signInSchema";
-import { useAuthStore } from "~/store/auth";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
+import { useAuth } from "~/context/AuthContext";
 
 export default function LoginForm() {
     const {
@@ -19,13 +19,11 @@ export default function LoginForm() {
         resolver: zodResolver(signInSchema),
     });
 
-    const { login, message, isLoading } = useAuthStore();
-    const router = useRouter();
+    const { onLogin } = useAuth();
 
     const onSubmit = async (data: signInFormData) => {
         try {
-            await login(data.email, data.password);
-            router.replace("/(tabs)/(home)");
+            await onLogin(data.email, data.password);
         } catch (error) {
             console.log("Erro no login:", error);
         }
@@ -76,15 +74,13 @@ export default function LoginForm() {
             </View>
 
             {/* Mensagem de erro de login */}
-            {message.text && message.type == "error" && <Text className="text-destructive text-sm text-center">{message.text}</Text>}
 
             {/* Botão de Login */}
             <Button
                 onPress={handleSubmit(onSubmit)}
-                disabled={isLoading}
-                className={`bg-primary p-3 rounded-lg flex items-center justify-center ${isLoading ? "opacity-50" : ""}`}
+                className={`bg-primary p-3 rounded-lg flex items-center justify-center `}
             >
-                <Text className=" font-bold">{isLoading ? "Entrando..." : "Entrar"}</Text>
+                <Text className=" font-bold"> Entrar</Text>
 
             </Button>
         </View>

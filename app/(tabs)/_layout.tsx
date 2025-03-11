@@ -1,23 +1,33 @@
-import { Tabs, useRouter } from "expo-router";
+import { router, Tabs, useRouter } from "expo-router";
 import * as React from 'react';
 import { WalletMinimal, Home } from "lucide-react-native";
-import { useAuthStore } from "~/store/auth";
+import { useAuth } from "~/context/AuthContext";
 
 export default function TabLayout() {
-    const hasMounted = React.useRef(false);
-    const { token } = useAuthStore();
-    const router = useRouter(); // Corrigido erro de digitação
+    return (
+        <MainLayout />
+    );
+}
+
+const MainLayout = () => {
+    const { authStage } = useAuth();
+    const router = useRouter();
+    const [isMounted, setIsMounted] = React.useState(false);
 
     React.useEffect(() => {
-        if (!hasMounted.current) {
-            hasMounted.current = true;
-            return;
-        }
+        setIsMounted(true);
+    }, []);
 
-        if (!token) {
-            router.replace('/(auth)/login');
+    React.useEffect(() => {
+        if (isMounted) {
+            console.log("leyout de tabs", !authStage.authenticated);
+
+            if (!authStage.authenticated) {
+                console.log("User is not authenticated, redirecting to login");
+                router.replace("/(auth)/login");
+            }
         }
-    }, [token]);
+    }, [authStage.authenticated, isMounted]);
 
     return (
         <Tabs screenOptions={{ headerShown: false }}>
@@ -42,5 +52,5 @@ export default function TabLayout() {
                 }}
             />
         </Tabs>
-    );
+    )
 }

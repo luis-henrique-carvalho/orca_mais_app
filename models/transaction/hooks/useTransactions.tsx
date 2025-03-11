@@ -1,6 +1,5 @@
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import api from "~/lib/api";
-import { useAuthStore } from "~/store/auth";
 import { Category, Transaction } from "../types";
 import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -22,7 +21,6 @@ interface UseTransactionsReturn {
     createTransaction: (data: TransactionFormData) => Promise<void>;
     contentInsets: { top: number; bottom: number; left: number; right: number };
     insets: { top: number; bottom: number; left: number; right: number };
-    token: string | null;
     loadMoreTransactions: () => Promise<void>;
     hasMore: boolean;
     loadingMore: boolean;
@@ -45,7 +43,6 @@ export function useTransactions(): UseTransactionsReturn {
     const [loadingMore, setLoadingMore] = useState<boolean>(false);
     const [refreshing, setRefreshing] = useState(false);
 
-    const { token } = useAuthStore();
     const router = useRouter();
 
     const insets = useSafeAreaInsets();
@@ -68,7 +65,6 @@ export function useTransactions(): UseTransactionsReturn {
 
         try {
             const response = await api.get("/api/v1/transactions", {
-                headers: { Authorization: `Bearer ${token}` },
                 params: { search, "q[category_id_eq]": selectedCategory, page }
             });
             setTransactions((prevTransactions) => page === 1 ? response.data.data : [...prevTransactions, ...response.data.data]);
@@ -80,28 +76,24 @@ export function useTransactions(): UseTransactionsReturn {
         } finally {
             page === 1 ? setLoading(false) : setLoadingMore(false);
         }
-    }, [token, search, selectedCategory]);
+    }, [search, selectedCategory]);
 
     const fetchCategories = useCallback(async () => {
         setError(null);
         try {
-            const response = await api.get("/api/v1/categories", {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const response = await api.get("/api/v1/categories");
             setCategories(response.data.data);
         } catch (error) {
             console.error("Erro ao buscar categorias:", error);
             setError("Falha ao carregar categorias. Tente novamente.");
         }
-    }, [token]);
+    }, []);
 
     const fetchTransactionDetails = useCallback(async (id: string) => {
         setLoading(true);
         setError(null);
         try {
-            const response = await api.get(`/api/v1/transactions/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            const response = await api.get(`/api/v1/transactions/${id}`);
             setTransaction(response.data.data);
         } catch (error) {
             console.error("Erro ao buscar detalhes da transação:", error);
@@ -109,7 +101,7 @@ export function useTransactions(): UseTransactionsReturn {
         } finally {
             setLoading(false);
         }
-    }, [token]);
+    }, []);
 
     // ------------------- Mutation Functions -------------------
 
@@ -117,9 +109,7 @@ export function useTransactions(): UseTransactionsReturn {
         setLoading(true);
         setError(null);
         try {
-            await api.post("/api/v1/transactions", data, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await api.post("/api/v1/transactions", data);
             router.replace("/(tabs)/transactions");
         } catch (error) {
             console.error("Erro ao criar transação:", error);
@@ -133,9 +123,7 @@ export function useTransactions(): UseTransactionsReturn {
         setLoading(true);
         setError(null);
         try {
-            await api.put(`/api/v1/transactions/${id}`, data, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await api.put(`/api/v1/transactions/${id}`, data);
             router.replace("/(tabs)/transactions");
         } catch (error) {
             console.error("Erro ao atualizar transação:", error);
@@ -149,9 +137,7 @@ export function useTransactions(): UseTransactionsReturn {
         setLoading(true);
         setError(null);
         try {
-            await api.delete(`/api/v1/transactions/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await api.delete(`/api/v1/transactions/${id}`);
             // TODO: Remove transaction from list
             router.replace("/(tabs)/transactions");
         } catch (error) {
@@ -194,7 +180,7 @@ export function useTransactions(): UseTransactionsReturn {
         createTransaction,
         contentInsets,
         insets,
-        token,
+
         loadMoreTransactions,
         hasMore: currentPage < totalPages,
         loadingMore,

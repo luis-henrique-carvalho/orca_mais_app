@@ -4,11 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { View } from "react-native";
 import { useRouter } from "expo-router";
 import { signUpSchema, signUpFormData } from "~/models/auth/schemas/signUpSchema";
-import { useAuthStore } from "~/store/auth";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
+import { useAuth } from "~/context/AuthContext";
 
 export default function RegisterForm() {
     const {
@@ -19,13 +19,11 @@ export default function RegisterForm() {
         resolver: zodResolver(signUpSchema),
     });
 
-    const { signup, message, isLoading } = useAuthStore();
-    const router = useRouter();
+    const { onRegister } = useAuth();
 
     const onSubmit = async (data: signUpFormData) => {
         try {
-            await signup(data.email, data.password, data.name);
-            router.replace("/(tabs)/(home)");
+            await onRegister(data.email, data.password, data.name);
         } catch (error) {
             console.log("Erro no cadastro:", error);
         }
@@ -95,15 +93,13 @@ export default function RegisterForm() {
             </View>
 
             {/* Mensagem de erro no cadastro */}
-            {message.text && message.type == "error" && <Text className="text-destructive text-sm text-center">{message.text}</Text>}
 
             {/* Botão de Cadastro */}
             <Button
                 onPress={handleSubmit(onSubmit)}
-                disabled={isLoading}
-                className={`bg-primary p-3 rounded-lg flex items-center justify-center ${isLoading ? "opacity-50" : ""}`}
+                className={`bg-primary p-3 rounded-lg flex items-center justify-center`}
             >
-                <Text className=" font-bold">{isLoading ? "Cadastrando..." : "Cadastrar"}</Text>
+                <Text className=" font-bold">Cadastrar</Text>
             </Button>
         </View>
     );

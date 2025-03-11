@@ -1,18 +1,14 @@
 import React from 'react';
 import { Button } from '~/components/ui/button';
-import { useAuthStore } from '~/store/auth';
-import { useRouter } from 'expo-router';
-import { Text } from './ui/text';
 import { LogOut } from 'lucide-react-native';
+import { useAuth } from '~/context/AuthContext';
 
 export default function LogoutButton() {
-    const logout = useAuthStore((state) => state.logout);
-    const router = useRouter();
+    const { onLogout } = useAuth();
 
     const handleLogout = async () => {
         try {
-            await logout();
-            router.replace('/(auth)/login');
+            await onLogout();
         } catch (error) {
             console.log('Logout failed', error);
         }
