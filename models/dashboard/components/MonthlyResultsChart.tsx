@@ -1,8 +1,9 @@
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 import { Card, CardHeader, CardTitle, CardContent } from "~/components/ui/card";
 import { BarChart } from "react-native-gifted-charts";
 import { useColorScheme } from "~/lib/useColorScheme";
-import { TransactionByCategory, TransactionsByMonth } from "../types";
+import { TransactionsByMonth } from "../types";
+import { useMemo } from "react";
 
 interface MonthlyResultsChartProps {
     transactionsByMonth: TransactionsByMonth[];
@@ -10,6 +11,37 @@ interface MonthlyResultsChartProps {
 
 export const MonthlyResultsChart = ({ transactionsByMonth }: MonthlyResultsChartProps) => {
     const { isDarkColorScheme } = useColorScheme();
+
+    const data = useMemo(() => {
+        return transactionsByMonth.map((item) => {
+            const totalAmount = Number(item.total_amount);
+            const date_label = new Date(item.month).toLocaleDateString("pt-BR", {
+                month: "2-digit",
+                year: "2-digit",
+            });
+            const frontColor = totalAmount < 0 ? "#ff0000" : "#16A34A";
+
+            return {
+                value: totalAmount,
+                label: date_label,
+                onPress: () => {
+                    console.log("clicked");
+                },
+                topLabelComponent: () => (
+                    <Text className="text-foreground text-xs">{item.total_amount}</Text>
+                ),
+                frontColor: frontColor,
+            };
+        });
+    }, [transactionsByMonth]);
+
+    const maxValueAbs = useMemo(() => {
+        const values = data.map(item => item.value);
+        const maxValue = Math.max(...values);
+        const minValue = Math.min(...values);
+
+        return Math.max(Math.abs(maxValue), Math.abs(minValue));
+    }, [data]);
 
     return (
         <Card className="rounded-lg shadow-md mb-4">
@@ -19,26 +51,13 @@ export const MonthlyResultsChart = ({ transactionsByMonth }: MonthlyResultsChart
             <CardContent>
                 {transactionsByMonth.length > 0 ? (
                     <BarChart
-                        data={transactionsByMonth.map((item) => ({
-                            value: Number(item.total_amount),
-                            label: new Date(item.month).toLocaleDateString("pt-BR", {
-                                month: "2-digit",
-                                year: "2-digit",
-                            }),
-                            topLabelComponent: () => (
-                                <Text className="text-foreground text-xs">
-                                    {Number(item.total_amount).toLocaleString("pt-BR", {
-                                        style: "currency",
-                                        currency: "BRL",
-                                    })}
-                                </Text>
-                            ),
-                            frontColor: item.total_amount < "0" ? "#ff0000" : "#16A34A",
-                        }))}
+                        data={data}
                         barWidth={60}
+                        yAxisLabelWidth={40}
                         width={300}
-                        yAxisLabelWidth={50}
+                        autoShiftLabels
                         stepHeight={25}
+                        maxValue={maxValueAbs}
                         yAxisTextStyle={{ color: isDarkColorScheme ? "#fff" : "#000" }}
                         xAxisLabelTextStyle={{ color: isDarkColorScheme ? "#fff" : "#000" }}
                         rulesType="solid"
