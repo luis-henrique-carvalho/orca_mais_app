@@ -28,7 +28,7 @@ export const MonthlyResultsChart = ({ transactionsByMonth }: MonthlyResultsChart
                     console.log("clicked");
                 },
                 topLabelComponent: () => (
-                    <Text className="text-foreground text-xs">{item.total_amount}</Text>
+                    <Text className="text-foreground text-xs">{totalAmount}</Text>
                 ),
                 frontColor: frontColor,
             };
@@ -52,7 +52,7 @@ export const MonthlyResultsChart = ({ transactionsByMonth }: MonthlyResultsChart
                 {transactionsByMonth.length > 0 ? (
                     <BarChart
                         data={data}
-                        barWidth={60}
+                        barWidth={70}
                         yAxisLabelWidth={40}
                         width={300}
                         autoShiftLabels
