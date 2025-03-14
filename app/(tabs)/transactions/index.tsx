@@ -2,12 +2,12 @@ import { View, SafeAreaView, FlatList, ActivityIndicator, RefreshControl } from 
 import { TransactionItem } from "~/models/transaction/components/TransactionItem";
 import { TransactionCategorySelector } from "~/models/transaction/components/TransactionCategorySelector";
 import { TransactionSeach } from "~/models/transaction/components/TransactionSeach";
-import { useTransactions } from "~/models/transaction/hooks/useTransactions";
 import { useEffect } from "react";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useRouter } from "expo-router";
 import { useInsects } from "~/lib/utils";
+import { useTransactionStore } from "~/models/transaction/store/useTransactionSore";
 
 export default function TransactionsScreen() {
     const router = useRouter();
@@ -26,12 +26,13 @@ export default function TransactionsScreen() {
         hasMore,
         onRefresh,
         refreshing,
-    } = useTransactions();
+    } = useTransactionStore();
 
-    const { insets, contentInsets } = useInsects();
+    const { insets } = useInsects();
 
     useEffect(() => {
-        fetchCategories();
+        if (categories.length === 0) { fetchCategories(); }
+
         fetchTransactions();
     }, [search, selectedCategory]);
 
@@ -61,7 +62,7 @@ export default function TransactionsScreen() {
                     ListEmptyComponent={<Text className="text-center">Nenhuma transação encontrada</Text>}
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                     onEndReached={() => {
-                        if (hasMore && !loadingMore) loadMoreTransactions();
+                        if (hasMore() && !loadingMore) loadMoreTransactions();
                     }}
                     onEndReachedThreshold={0.2}
                     ListFooterComponent={loadingMore ? <ActivityIndicator size="small" color="#0000ff" className="mt-4" /> : null}

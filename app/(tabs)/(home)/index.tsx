@@ -5,6 +5,7 @@ import { Text } from "~/components/ui/text";
 import { useDashboards } from "~/models/dashboard/hooks/useDashboards";
 import CategoryBarChart from "~/models/dashboard/components/CategoryBarChart";
 import MonthlyResultsChart from "~/models/dashboard/components/MonthlyResultsChart";
+import { useSegments } from "expo-router";
 
 export default function HomeScreen() {
     const {
@@ -14,10 +15,14 @@ export default function HomeScreen() {
         refreshing,
     } = useDashboards();
 
+    const segments = useSegments();
+
 
     useEffect(() => {
-        fetchDashboardData();
-    }, []);
+        if (segments[1] === "(home)") {
+            fetchDashboardData();
+        }
+    }, [segments]);
 
     const { total_balance, total_expense, total_income, expenses_by_category, incomes_by_category, transactions_by_month } = dashboardData || {};
 
