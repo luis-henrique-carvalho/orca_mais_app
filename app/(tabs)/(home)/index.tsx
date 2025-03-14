@@ -19,8 +19,6 @@ export default function HomeScreen() {
         fetchDashboardData();
     }, []);
 
-    console.log("Renderizei o dashboard (tabs)/home");
-
     const { total_balance, total_expense, total_income, expenses_by_category, incomes_by_category, transactions_by_month } = dashboardData || {};
 
     return (

@@ -1,4 +1,4 @@
-import { View, FlatList, ActivityIndicator, RefreshControl } from "react-native";
+import { View, SafeAreaView, FlatList, ActivityIndicator, RefreshControl } from "react-native";
 import { TransactionItem } from "~/models/transaction/components/TransactionItem";
 import { TransactionCategorySelector } from "~/models/transaction/components/TransactionCategorySelector";
 import { TransactionSeach } from "~/models/transaction/components/TransactionSeach";
@@ -35,7 +35,7 @@ export default function TransactionsScreen() {
     }, [search, selectedCategory]);
 
     return (
-        <View className="flex-1 p-4 gap-4" style={{ paddingTop: insets.top }}>
+        <SafeAreaView className="flex-1 p-4 gap-4" style={{ paddingTop: insets.top }}>
             <View className="flex-row items-center justify-between gap-2">
                 <Text className="text-3xl font-bold">Transações</Text>
                 <Button onPress={() => router.push(`/transactions/create`)} variant={"default"} className="w-1/4">
@@ -66,6 +66,6 @@ export default function TransactionsScreen() {
                     ListFooterComponent={loadingMore ? <ActivityIndicator size="small" color="#0000ff" className="mt-4" /> : null}
                 />
             )}
-        </View>
+        </SafeAreaView>
     );
 }

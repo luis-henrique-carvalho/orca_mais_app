@@ -31,7 +31,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
             if (token) {
                 const parsedToken = JSON.parse(token);
-                console.log(`Bearer ${parsedToken}`);
                 api.defaults.headers.common["Authorization"] = `Bearer ${parsedToken}`;
                 setAuthStage({ token: parsedToken, authenticated: true });
             }

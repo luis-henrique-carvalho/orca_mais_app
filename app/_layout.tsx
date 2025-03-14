@@ -67,14 +67,6 @@ export default function RootLayout() {
 const MainLayout = () => {
   const { authStage } = useAuth();
 
-  React.useEffect(() => {
-    if (authStage.authenticated) {
-      console.log('User is authenticated');
-    }
-  }, [authStage.authenticated]);
-
-  console.log('authStage', authStage);
-
   return (
     <Stack screenOptions={{
       headerLeft: () => null,

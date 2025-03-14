@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { View, ActivityIndicator, TouchableOpacity } from "react-native";
+import { View, SafeAreaView, ActivityIndicator, TouchableOpacity } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
 import { useTransactions } from "~/models/transaction/hooks/useTransactions";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
@@ -20,21 +20,21 @@ export default function TransactionDetailsScreen() {
 
     if (loading) {
         return (
-            <View className="flex-1 justify-center items-center p-6">
+            <SafeAreaView className="flex-1 justify-center items-center p-6">
                 <ActivityIndicator size="large" color="#6200EE" />
                 <Text className="mt-4 text-lg text-center">Carregando detalhes da transação...</Text>
-            </View>
+            </SafeAreaView>
         );
     }
 
     if (error) {
         return (
-            <View className="flex-1 justify-center items-center p-6">
+            <SafeAreaView className="flex-1 justify-center items-center p-6">
                 <Text className="text-lg text-red-600 text-center">{error}</Text>
                 <Button onPress={() => fetchTransactionDetails(id as string)} className="mt-4 w-3/4">
                     <Text>Tentar novamente</Text>
                 </Button>
-            </View>
+            </SafeAreaView>
         );
     }
 
@@ -43,7 +43,7 @@ export default function TransactionDetailsScreen() {
     }
 
     return (
-        <View className="flex-1 p-4">
+        <SafeAreaView className="flex-1 p-4">
             <Card>
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold">{transaction.name}</CardTitle>
@@ -82,6 +82,6 @@ export default function TransactionDetailsScreen() {
                     </Button>
                 </CardFooter>
             </Card>
-        </View>
+        </SafeAreaView>
     );
 }

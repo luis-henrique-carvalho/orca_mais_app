@@ -20,10 +20,7 @@ const MainLayout = () => {
 
     React.useEffect(() => {
         if (isMounted) {
-            console.log("leyout de tabs", !authStage.authenticated);
-
             if (!authStage.authenticated) {
-                console.log("User is not authenticated, redirecting to login");
                 router.replace("/(auth)/login");
             }
         }

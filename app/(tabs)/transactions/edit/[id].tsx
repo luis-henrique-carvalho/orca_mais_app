@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { SafeAreaView } from "react-native";
 import TransactionForm from "~/models/transaction/components/forms/TransactionForm";
 import { useTransactions } from "~/models/transaction/hooks/useTransactions";
 import { useEffect } from "react";
@@ -18,9 +18,9 @@ export default function EditTransactionScreen() {
 
     if (!transaction) {
         return (
-            <View className="flex-1 p-4 " style={{ paddingTop: insets.top }}>
+            <SafeAreaView className="flex-1 p-4 " style={{ paddingTop: insets.top }}>
                 <Text className="text-2xl font-bold mb-4">Carregando...</Text>
-            </View>
+            </SafeAreaView>
         );
     }
 
@@ -33,9 +33,9 @@ export default function EditTransactionScreen() {
     };
 
     return (
-        <View className="flex-1 p-4 " style={{ paddingTop: insets.top }}>
+        <SafeAreaView className="flex-1 p-4 " style={{ paddingTop: insets.top }}>
             <Text className="text-2xl font-bold mb-4">Editar Transação</Text>
             <TransactionForm defaultValues={editValues} id={transaction.id} editCategory={transaction.category} />
-        </View>
+        </SafeAreaView>
     );
 }

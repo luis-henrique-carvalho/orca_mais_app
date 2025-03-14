@@ -20,10 +20,7 @@ const MainLayout = () => {
 
     React.useEffect(() => {
         if (isMounted) {
-            console.log("leyout de auth", authStage.authenticated);
-
             if (authStage.authenticated) {
-                console.log("User is authenticated, redirecting to home");
                 router.replace("/(tabs)/(home)");
             }
         }
