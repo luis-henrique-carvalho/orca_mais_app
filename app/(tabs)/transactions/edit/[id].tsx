@@ -5,10 +5,13 @@ import { useEffect } from "react";
 import { useLocalSearchParams } from "expo-router";
 import { TransactionType } from "~/models/transaction/schemas/transactionSchema";
 import { Text } from "~/components/ui/text";
+import { useInsects } from "~/lib/utils";
 
 export default function EditTransactionScreen() {
-    const { insets, fetchTransactionDetails, transaction } = useTransactions();
+    const { fetchTransactionDetails, transaction } = useTransactions();
     const { id } = useLocalSearchParams();
+
+    const { insets } = useInsects();
 
     useEffect(() => {
         if (id) {

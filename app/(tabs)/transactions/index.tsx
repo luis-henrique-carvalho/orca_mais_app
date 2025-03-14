@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { useRouter } from "expo-router";
+import { useInsects } from "~/lib/utils";
 
 export default function TransactionsScreen() {
     const router = useRouter();
@@ -23,11 +24,11 @@ export default function TransactionsScreen() {
         fetchTransactions,
         loadMoreTransactions,
         hasMore,
-        contentInsets,
-        insets,
         onRefresh,
         refreshing,
     } = useTransactions();
+
+    const { insets, contentInsets } = useInsects();
 
     useEffect(() => {
         fetchCategories();
@@ -47,7 +48,7 @@ export default function TransactionsScreen() {
                     <TransactionSeach search={search} setSearch={setSearch} />
                 </View>
                 <View className="flex-1">
-                    <TransactionCategorySelector categories={categories} setSelectedCategory={setSelectedCategory} contentInsets={contentInsets} />
+                    <TransactionCategorySelector categories={categories} setSelectedCategory={setSelectedCategory} />
                 </View>
             </View>
             {loading ? (

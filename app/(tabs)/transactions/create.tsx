@@ -3,11 +3,10 @@ import TransactionForm from "~/models/transaction/components/forms/TransactionFo
 import { useTransactions } from "~/models/transaction/hooks/useTransactions";
 import { Text } from "~/components/ui/text";
 
-export default function CreateTransactionScreen() {
+import { useInsects } from "~/lib/utils";
 
-    const {
-        insets
-    } = useTransactions();
+export default function CreateTransactionScreen() {
+    const { insets } = useInsects();
 
     return (
         <SafeAreaView className="flex-1 p-4 " style={{ paddingTop: insets.top }}>

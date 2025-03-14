@@ -2,23 +2,18 @@ import { View } from "react-native";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { ScrollView } from "react-native-gesture-handler";
 import { Category } from "../types";
-
-interface ContentInsets {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-}
+import { useInsects } from "~/lib/utils";
 
 interface TransactionCategorySelectorProps {
     categories: Category[];
     setSelectedCategory: (value: string | undefined) => void;
-    contentInsets: ContentInsets;
     withCreateTransaction?: boolean;
     default_Category?: Category
 }
 
-export function TransactionCategorySelector({ categories, setSelectedCategory, contentInsets, default_Category }: TransactionCategorySelectorProps) {
+export function TransactionCategorySelector({ categories, setSelectedCategory, default_Category }: TransactionCategorySelectorProps) {
+    const { contentInsets } = useInsects();
+
     return (
         <View className="w-full">
             <Select

@@ -2,7 +2,6 @@ import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import api from "~/lib/api";
 import { Category, Transaction } from "../types";
 import { useRouter } from "expo-router";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TransactionFormData } from "../schemas/transactionSchema";
 
 interface UseTransactionsReturn {
@@ -19,8 +18,6 @@ interface UseTransactionsReturn {
     fetchTransactions: (page?: number) => Promise<void>;
     fetchCategories: () => Promise<void>;
     createTransaction: (data: TransactionFormData) => Promise<void>;
-    contentInsets: { top: number; bottom: number; left: number; right: number };
-    insets: { top: number; bottom: number; left: number; right: number };
     loadMoreTransactions: () => Promise<void>;
     hasMore: boolean;
     loadingMore: boolean;
@@ -44,14 +41,6 @@ export function useTransactions(): UseTransactionsReturn {
     const [refreshing, setRefreshing] = useState(false);
 
     const router = useRouter();
-
-    const insets = useSafeAreaInsets();
-    const contentInsets = {
-        top: insets.top,
-        bottom: insets.bottom,
-        left: 14,
-        right: 14,
-    };
 
     // ------------------- Fetching Functions -------------------
 
@@ -178,9 +167,6 @@ export function useTransactions(): UseTransactionsReturn {
         fetchTransactions,
         fetchCategories,
         createTransaction,
-        contentInsets,
-        insets,
-
         loadMoreTransactions,
         hasMore: currentPage < totalPages,
         loadingMore,

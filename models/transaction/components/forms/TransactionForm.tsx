@@ -30,7 +30,7 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
         defaultValues,
     });
 
-    const { createTransaction, updateTransaction, categories, contentInsets, fetchCategories } = useTransactions();
+    const { createTransaction, updateTransaction, categories, fetchCategories } = useTransactions();
 
     useEffect(() => {
         fetchCategories();
@@ -95,7 +95,7 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                         name="category_id"
                         render={({ field: { onChange, value } }) => (
                             <View className="flex-1">
-                                <TransactionCategorySelector categories={categories} setSelectedCategory={onChange} contentInsets={contentInsets} default_Category={editCategory} />
+                                <TransactionCategorySelector categories={categories} setSelectedCategory={onChange} default_Category={editCategory} />
                             </View>
                         )}
                     />
