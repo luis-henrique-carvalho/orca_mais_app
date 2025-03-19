@@ -141,6 +141,7 @@ export const useTransactionStore = create<TransactionStore>((set, get) => ({
 
   loadMoreTransactions: async () => {
     const { currentPage, totalPages } = get();
+
     if (currentPage < totalPages) {
       await get().fetchTransactions(currentPage + 1);
     }

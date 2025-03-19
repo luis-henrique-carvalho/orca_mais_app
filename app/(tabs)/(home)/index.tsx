@@ -17,7 +17,7 @@ export default function HomeScreen() {
 
     const segments = useSegments();
 
-
+    // TODO: Fetch data only when user creates or deletes a transaction
     useEffect(() => {
         if (segments[1] === "(home)") {
             fetchDashboardData();

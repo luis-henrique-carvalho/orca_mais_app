@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { Trash2, Info } from "lucide-react-native";
-import { useTransactions } from "../hooks/useTransactions";
+import { useTransactionStore } from "../store/useTransactionSore";
 
 interface TransactionItemProps {
     transaction: Transaction;
@@ -16,7 +16,7 @@ interface TransactionItemProps {
 const TransactionItemComponent: React.FC<TransactionItemProps> = ({ transaction }) => {
     const router = useRouter();
 
-    const { deleteTransaction } = useTransactions()
+    const { deleteTransaction } = useTransactionStore()
 
     return (
         <Card className="mb-4" key={transaction.id}>
