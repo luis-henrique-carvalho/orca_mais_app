@@ -64,7 +64,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             password: password
         }
         try {
-            console.log("login", email, password);
             const { data } = await api.post('/api/auth/login', { user });
 
             setAuthStage({ token: data.token, authenticated: true });
