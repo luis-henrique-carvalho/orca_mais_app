@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { View, ScrollView, Keyboard, TouchableWithoutFeedback } from "react-native";
-import { transactionSchema, TransactionFormData, TransactionType } from "~/models/transaction/schemas/transactionSchema";
+import { transactionSchema, TransactionFormData, TransactionType, transactionTypeLabels } from "~/models/transaction/schemas/transactionSchema";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -21,6 +21,15 @@ interface TransactionFormProps {
 }
 
 export default function TransactionForm({ defaultValues, id, editCategory }: TransactionFormProps) {
+    defaultValues = {
+        ...defaultValues,
+        name: defaultValues?.name || "",
+        amount: Math.abs(defaultValues?.amount ?? 0),
+        category_id: defaultValues?.category_id || "",
+        transaction_type: defaultValues?.transaction_type ?? TransactionType.expense,
+        description: defaultValues?.description || ""
+    };
+
     const {
         control,
         handleSubmit,
@@ -77,8 +86,8 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                             <Input
                                 placeholder="Digite o valor da transação"
                                 onBlur={onBlur}
-                                onChangeText={(text) => onChange(parseFloat(text) || 0)}
-                                value={value ? value.toString() : ""}
+                                onChangeText={(text) => onChange(Number(text))}
+                                value={value.toString()}
                                 keyboardType="decimal-pad"
                                 className={errors.amount ? "border-destructive" : "border-primary"}
                             />
@@ -130,16 +139,18 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                         render={({ field: { onChange, value } }) => (
                             <Select
                                 onValueChange={(option) => option && onChange(option.value)}
-                                defaultValue={value ? { value, label: value } : undefined}
+                                defaultValue={value ? { value, label: transactionTypeLabels[value] } : undefined}
                             >
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Selecione o tipo de transação" />
                                 </SelectTrigger>
                                 <SelectContent className="w-full">
                                     <SelectGroup>
-                                        <SelectLabel>Tipo de Transação</SelectLabel>
-                                        <SelectItem value={TransactionType.income} label={"Receita"}>Receita</SelectItem>
-                                        <SelectItem value={TransactionType.expense} label={"Despesa"}> Despesa</SelectItem>
+                                        {Object.entries(transactionTypeLabels).map(([typeValue, label]) => (
+                                            <SelectItem key={typeValue} value={typeValue} label={label}>
+                                                {label}
+                                            </SelectItem>
+                                        ))}
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>

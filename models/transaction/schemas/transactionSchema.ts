@@ -5,6 +5,11 @@ export enum TransactionType {
   expense = "expense",
 }
 
+export const transactionTypeLabels: Record<TransactionType, string> = {
+  [TransactionType.income]: "Receita",
+  [TransactionType.expense]: "Despesa",
+};
+
 export const transactionSchema = z.object({
   name: z.string().min(5, "Nome é obrigatório"),
   amount: z.number().min(0.01, "Valor é obrigatório"),
