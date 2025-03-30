@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/componen
 import { Text } from "~/components/ui/text";
 import { useRouter } from "expo-router";
 import { Button } from "~/components/ui/button"; // Supondo que você tenha o componente Button
+import { format } from 'date-fns';
 
 export default function TransactionDetailsScreen() {
     const { id } = useLocalSearchParams();
@@ -37,10 +38,16 @@ export default function TransactionDetailsScreen() {
             </SafeAreaView>
         );
     }
-
     if (!transaction) {
         return <Text className="text-lg text-center mt-6">Transação não encontrada</Text>;
     }
+
+
+    const createdAt = transaction.created_at.replace(" UTC", "").replace(" ", "T");
+
+    const date = new Date(createdAt);
+    const formattedDate = format(date, "dd/MMM/yy 'às' HH:mm:ss");
+
 
     return (
         <SafeAreaView className="flex-1 p-4">
@@ -69,7 +76,7 @@ export default function TransactionDetailsScreen() {
                     </Text>
                     <Text className="text-lg">
                         Data:{" "}
-                        <Text className="font-semibold">{new Date(transaction.created_at).toLocaleDateString()}</Text>
+                        <Text className="font-semibold">{formattedDate}</Text>
                     </Text>
                 </CardContent>
                 <CardFooter className="flex justify-between gap-4 mt-6">

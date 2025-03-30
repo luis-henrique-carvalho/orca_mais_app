@@ -28,6 +28,7 @@
     "axios": "^1.8.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "date-fns": "^4.1.0",
     "expo": "^52.0.25",
     "expo-linear-gradient": "~14.0.2",
     "expo-linking": "~7.0.4",
