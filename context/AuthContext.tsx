@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
             api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
+            await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, JSON.stringify(data.refresh_token));
             await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(data.token));
         } catch (error) {
             console.error('Failed to register', error);
@@ -67,18 +68,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const response = await api.post('/api/auth/login', { user });
             const data = response.data;
 
-            console.log('data', data);
-
-            await SecureStore.setItemAsync('refresh_token', JSON.stringify({
-                value: data.refresh_token.value,
-                expires: data.refresh_token.expires
-            }));
-
-            setAuthStage({ token: data.token, authenticated: true });
-
             api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
+            await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, JSON.stringify(data.refresh_token));
             await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(data.token));
+
+            setAuthStage({ token: data.token, authenticated: true });
         } catch (error) {
             console.error('Failed to login', error);
         }
