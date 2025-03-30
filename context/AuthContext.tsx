@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import api from '~/lib/api';
 import * as SecureStore from 'expo-secure-store';
-import axios from 'axios';
 
 interface AuthContextData {
     authStage: { token: string | null, authenticated: boolean };
@@ -11,6 +10,7 @@ interface AuthContextData {
 }
 
 const TOKEN_KEY = 'auth_token';
+const REFRESH_TOKEN_KEY = 'refresh_token';
 const AuthContext = createContext<AuthContextData>({
     authStage: { token: null, authenticated: false },
     onRegister: async () => { },
@@ -64,7 +64,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             password: password
         }
         try {
-            const { data } = await api.post('/api/auth/login', { user });
+            const response = await api.post('/api/auth/login', { user });
+            const data = response.data;
+
+            console.log('data', data);
+
+            await SecureStore.setItemAsync('refresh_token', JSON.stringify({
+                value: data.refresh_token.value,
+                expires: data.refresh_token.expires
+            }));
 
             setAuthStage({ token: data.token, authenticated: true });
 
@@ -79,6 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const logout = async () => {
         try {
             await SecureStore.deleteItemAsync(TOKEN_KEY);
+            await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
 
             api.defaults.headers.common.Authorization = '';
 
