@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import api from '~/lib/api';
 import * as SecureStore from 'expo-secure-store';
-import axios from 'axios';
 
 interface AuthContextData {
     authStage: { token: string | null, authenticated: boolean };
@@ -11,6 +10,7 @@ interface AuthContextData {
 }
 
 const TOKEN_KEY = 'auth_token';
+const REFRESH_TOKEN_KEY = 'refresh_token';
 const AuthContext = createContext<AuthContextData>({
     authStage: { token: null, authenticated: false },
     onRegister: async () => { },
@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
             api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
+            await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, JSON.stringify(data.refresh_token));
             await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(data.token));
         } catch (error) {
             console.error('Failed to register', error);
@@ -64,13 +65,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             password: password
         }
         try {
-            const { data } = await api.post('/api/auth/login', { user });
-
-            setAuthStage({ token: data.token, authenticated: true });
+            const response = await api.post('/api/auth/login', { user });
+            const data = response.data;
 
             api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
+            await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, JSON.stringify(data.refresh_token));
             await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(data.token));
+
+            setAuthStage({ token: data.token, authenticated: true });
         } catch (error) {
             console.error('Failed to login', error);
         }
@@ -79,6 +82,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const logout = async () => {
         try {
             await SecureStore.deleteItemAsync(TOKEN_KEY);
+            await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
 
             api.defaults.headers.common.Authorization = '';
 
