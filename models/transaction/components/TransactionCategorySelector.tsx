@@ -22,12 +22,12 @@ export function TransactionCategorySelector({ categories, setSelectedCategory, d
 
             >
                 <SelectTrigger className={"w-full"}>
-                    <SelectValue placeholder="Selecione uma categoria" />
+                    <SelectValue placeholder="Selecione uma categoria" className='text-foreground text-sm native:text-lg' />
                 </SelectTrigger>
                 <SelectContent insets={contentInsets} className={"w-full"}>
                     <ScrollView className="max-h-72 w-full">
-                        <SelectGroup className="text-primary">
-                            <SelectLabel >Categorias</SelectLabel>
+                        <SelectGroup>
+                            <SelectLabel>Categorias</SelectLabel>
                             <SelectItem value="" label="Todas as categorias">Todas as categorias</SelectItem>
                             {categories.map((category) => (
                                 <SelectItem key={category.id} value={category.id} label={category.name}>
