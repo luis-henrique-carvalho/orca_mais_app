@@ -39,6 +39,7 @@ export default function EditProfileScreen() {
                         full_name: user.full_name,
                         email: user.email,
                         cpf: user.cpf || "",
+                        avatar: user.avatar?.url || undefined,
                     }}
                     onSubmit={handleSave}
                 />

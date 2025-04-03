@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { View, Keyboard, TouchableWithoutFeedback, Image, ActivityIndicator } from "react-native";
+import { View, Keyboard, TouchableWithoutFeedback, ActivityIndicator } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
+import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema, UserFormData } from "~/models/user/schemas/userSchema";
 import { useRouter } from "expo-router";
@@ -60,6 +61,7 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
         }
 
         setLoading(true);
+
         try {
             await onSubmit(formData);
         } finally {
@@ -70,6 +72,22 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View className="gap-4">
+                <View className="items-center mb-4">
+                    <Label className="font-semibold mb-2">Avatar</Label>
+                    <TouchableWithoutFeedback onPress={handlePickImage}>
+                        <Avatar className="h-24 w-24" alt="Profile Avatar">
+                            {avatar ? (
+                                <AvatarImage source={{ uri: avatar }} />
+                            ) : (
+                                <AvatarFallback>
+                                    <Text className="text-lg font-bold">A</Text>
+                                </AvatarFallback>
+                            )}
+                        </Avatar>
+                    </TouchableWithoutFeedback>
+                    <Text className="text-sm text-muted-foreground mt-2">Toque para alterar o avatar</Text>
+                </View>
+
                 <View>
                     <Label className="font-semibold mb-1" nativeID="full_name">Nome Completo</Label>
                     <Controller
@@ -125,14 +143,6 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                         )}
                     />
                     {errors.cpf && <Text className="text-destructive text-xs mt-1">{errors.cpf.message}</Text>}
-                </View>
-
-                <View>
-                    <Label className="font-semibold mb-1">Avatar</Label>
-                    {avatar && <Image source={{ uri: avatar }} className="h-24 w-24 rounded-full mb-2" />}
-                    <Button onPress={handlePickImage} variant="outline" className="w-full">
-                        <Text>Selecionar Avatar</Text>
-                    </Button>
                 </View>
 
                 {loading ? (
