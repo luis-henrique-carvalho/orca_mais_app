@@ -32,7 +32,7 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
 
     const handlePickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            mediaTypes: ['images'], // Atualizado para usar o novo padrão
             allowsEditing: true,
             aspect: [1, 1],
             quality: 1,
