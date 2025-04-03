@@ -1,15 +1,6 @@
 import { create } from "zustand";
 import api from "~/lib/api";
-
-interface User {
-  id: string;
-  full_name: string;
-  email: string;
-  cpf: string;
-  avatar: {
-    url: string | null;
-  };
-}
+import { User } from "../types";
 
 interface UserStore {
   user: User | null;

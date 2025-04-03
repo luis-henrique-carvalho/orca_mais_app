@@ -38,7 +38,7 @@ export default function EditProfileScreen() {
                     defaultValues={{
                         full_name: user.full_name,
                         email: user.email,
-                        cpf: user.cpf,
+                        cpf: user.cpf || "",
                     }}
                     onSubmit={handleSave}
                 />

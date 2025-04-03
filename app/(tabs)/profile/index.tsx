@@ -54,7 +54,7 @@ export default function ProfileScreen() {
         <CardContent>
           <View className="flex-row items-center gap-4 mb-6">
             <Avatar alt={"Profile "} className="h-24 w-24">
-              {user.avatar.url ? (
+              {user?.avatar && user?.avatar.url ? (
                 <AvatarImage source={{ uri: user.avatar.url }} />
               ) : (
                 <AvatarFallback>
