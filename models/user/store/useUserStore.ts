@@ -7,7 +7,7 @@ interface UserStore {
   loading: boolean;
   error: string | null;
   fetchUser: (id: string) => Promise<void>;
-  updateUser: (id: string, data: Partial<User>) => Promise<void>;
+  updateUser: (id: string, data: FormData) => Promise<void>;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -29,7 +29,9 @@ export const useUserStore = create<UserStore>((set) => ({
   updateUser: async (id, data) => {
     set({ loading: true, error: null });
     try {
-      const response = await api.put(`/api/v1/users/${id}`, data);
+      const response = await api.put(`/api/v1/users/${id}`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       set({ user: response.data.data, loading: false });
     } catch (error) {
       console.error("Erro ao atualizar usuário:", error);

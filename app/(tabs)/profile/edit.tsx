@@ -9,10 +9,10 @@ export default function EditProfileScreen() {
     const [updateError, setUpdateError] = useState<string | null>(null);
     const router = useRouter();
 
-    const handleSave = async (data: { full_name: string; email: string; cpf: string }) => {
+    const handleSave = async (formData: FormData) => {
         if (user?.id) {
             try {
-                await updateUser(user.id, data);
+                await updateUser(user.id, formData);
                 router.back();
             } catch (err) {
                 setUpdateError("Falha ao atualizar os dados. Tente novamente.");

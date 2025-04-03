@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { View, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { View, Keyboard, TouchableWithoutFeedback, Image, ActivityIndicator } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { Button } from "~/components/ui/button";
@@ -11,7 +12,7 @@ import { useRouter } from "expo-router";
 
 interface UserFormProps {
     defaultValues?: UserFormData;
-    onSubmit: (data: UserFormData) => Promise<void>;
+    onSubmit: (data: FormData) => Promise<void>;
 }
 
 export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
@@ -24,7 +25,47 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
         defaultValues,
     });
 
+    const [avatar, setAvatar] = useState<string | null>(defaultValues?.avatar || null);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    const handlePickImage = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setAvatar(result.assets[0].uri);
+        }
+    };
+
+    const handleFormSubmit = async (data: UserFormData) => {
+        const formData = new FormData();
+
+        formData.append("user[full_name]", data.full_name);
+        formData.append("user[email]", data.email);
+        formData.append("user[cpf]", data.cpf);
+
+        if (avatar) {
+            const fileName = avatar.split("/").pop();
+            const fileType = fileName?.split(".").pop();
+            formData.append("user[avatar]", {
+                uri: avatar,
+                name: fileName,
+                type: `image/${fileType}`,
+            } as any);
+        }
+
+        setLoading(true);
+        try {
+            await onSubmit(formData);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -40,14 +81,15 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
-                                className={`border rounded-lg p-3 ${errors.email ? "border-destructive" : "border-primary"}`}
+                                className={`border rounded-lg p-3 ${errors.full_name ? "border-destructive" : "border-primary"}`}
                             />
                         )}
                     />
                     {errors.full_name && <Text className="text-destructive text-xs mt-1">{errors.full_name.message}</Text>}
                 </View>
+
                 <View>
-                    <Label className=" font-semibold mb-1" nativeID="email">Email</Label>
+                    <Label className="font-semibold mb-1" nativeID="email">Email</Label>
                     <Controller
                         control={control}
                         name="email"
@@ -66,7 +108,6 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                     {errors.email && <Text className="text-destructive text-xs mt-1">{errors.email.message}</Text>}
                 </View>
 
-                {/* cpf */}
                 <View>
                     <Label className="font-semibold mb-1" nativeID="cpf">CPF</Label>
                     <Controller
@@ -86,19 +127,33 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                     {errors.cpf && <Text className="text-destructive text-xs mt-1">{errors.cpf.message}</Text>}
                 </View>
 
-                <Button onPress={handleSubmit(onSubmit)} className="bg-primary p-3 rounded-lg flex items-center justify-center">
-                    <Text className="font-bold">Salvar</Text>
-                </Button>
+                <View>
+                    <Label className="font-semibold mb-1">Avatar</Label>
+                    {avatar && <Image source={{ uri: avatar }} className="h-24 w-24 rounded-full mb-2" />}
+                    <Button onPress={handlePickImage} variant="outline" className="w-full">
+                        <Text>Selecionar Avatar</Text>
+                    </Button>
+                </View>
 
-                <Button
-                    onPress={() => {
-                        router.back();
-                    }}
-                    variant="outline"
-                    className="bg-secondary p-3 rounded-lg flex items-center justify-center"
-                >
-                    <Text className="font-bold">Cancelar</Text>
-                </Button>
+                {loading ? (
+                    <ActivityIndicator size="large" color="#0000ff" />
+                ) : (
+                    <>
+                        <Button onPress={handleSubmit(handleFormSubmit)} className="bg-primary p-3 rounded-lg flex items-center justify-center">
+                            <Text className="font-bold">Salvar</Text>
+                        </Button>
+
+                        <Button
+                            onPress={() => {
+                                router.back();
+                            }}
+                            variant="outline"
+                            className="bg-secondary p-3 rounded-lg flex items-center justify-center"
+                        >
+                            <Text className="font-bold">Cancelar</Text>
+                        </Button>
+                    </>
+                )}
             </View>
         </TouchableWithoutFeedback>
     );
