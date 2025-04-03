@@ -33,7 +33,7 @@ export default function LoginForm() {
         <View className="p-6 flex flex-col gap-5">
             {/* Campo Email */}
             <View>
-                <Label className=" font-semibold mb-1" nativeID="email">Email</Label>
+                <Label className="font-semibold mb-1" nativeID="email">Email</Label>
                 <Controller
                     control={control}
                     name="email"
@@ -54,7 +54,7 @@ export default function LoginForm() {
 
             {/* Campo Senha */}
             <View>
-                <Label className=" font-semibold mb-1" nativeID="password">Senha</Label>
+                <Label className="font-semibold mb-1" nativeID="password">Senha</Label>
                 <Controller
                     control={control}
                     name="password"

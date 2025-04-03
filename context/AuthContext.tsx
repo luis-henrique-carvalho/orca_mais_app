@@ -2,8 +2,21 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import api from '~/lib/api';
 import * as SecureStore from 'expo-secure-store';
 
+interface User {
+    id: string;
+    avatar: {
+        id: string | null;
+        attachment_id: string | null;
+        content_type: string | null;
+        url: string | null;
+    };
+    cpf: string;
+    email: string;
+    full_name: string;
+}
+
 interface AuthContextData {
-    authStage: { token: string | null, authenticated: boolean };
+    authStage: { token: string | null, authenticated: boolean, user: User | null };
     onRegister: (email: string, password: string, full_name: string) => Promise<void>;
     onLogin: (email: string, password: string) => Promise<void>;
     onLogout: () => Promise<void>;
@@ -11,8 +24,10 @@ interface AuthContextData {
 
 const TOKEN_KEY = 'auth_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
+const USER_KEY = 'user';
+
 const AuthContext = createContext<AuthContextData>({
-    authStage: { token: null, authenticated: false },
+    authStage: { token: null, authenticated: false, user: null },
     onRegister: async () => { },
     onLogin: async () => { },
     onLogout: async () => { }
@@ -23,16 +38,23 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [authStage, setAuthStage] = useState<{ token: string | null, authenticated: boolean }>({ token: null, authenticated: false });
+    const [authStage, setAuthStage] = useState<{ token: string | null, authenticated: boolean, user: User | null }>({
+        token: null,
+        authenticated: false,
+        user: null
+    });
 
     useEffect(() => {
         const loadToken = async () => {
             const token = await SecureStore.getItemAsync(TOKEN_KEY);
+            const user = await SecureStore.getItemAsync(USER_KEY);
 
-            if (token) {
+            if (token && user) {
                 const parsedToken = JSON.parse(token);
+                const parsedUser = JSON.parse(user);
                 api.defaults.headers.common["Authorization"] = `Bearer ${parsedToken}`;
-                setAuthStage({ token: parsedToken, authenticated: true });
+
+                setAuthStage({ token: parsedToken, authenticated: true, user: parsedUser });
             }
         };
 
@@ -48,12 +70,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             const { data } = await api.post('/api/auth/signup', { user });
 
-            setAuthStage({ token: data.token, authenticated: true });
-
             api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
             await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, JSON.stringify(data.refresh_token));
             await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(data.token));
+            await SecureStore.setItemAsync(USER_KEY, JSON.stringify(data.user));
+
+            setAuthStage({ token: data.token, authenticated: true, user: data.user });
         } catch (error) {
             console.error('Failed to register', error);
         }
@@ -72,8 +95,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
             await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, JSON.stringify(data.refresh_token));
             await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(data.token));
+            await SecureStore.setItemAsync(USER_KEY, JSON.stringify(data.user));
 
-            setAuthStage({ token: data.token, authenticated: true });
+            setAuthStage({ token: data.token, authenticated: true, user: data.user });
         } catch (error) {
             console.error('Failed to login', error);
         }
@@ -86,7 +110,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
             api.defaults.headers.common.Authorization = '';
 
-            setAuthStage({ token: null, authenticated: false });
+            setAuthStage({ token: null, authenticated: false, user: null });
         } catch (error) {
             console.error('Failed to logout', error);
         }
