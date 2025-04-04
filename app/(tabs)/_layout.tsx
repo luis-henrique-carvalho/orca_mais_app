@@ -1,6 +1,6 @@
 import { router, Tabs, useRouter } from "expo-router";
 import * as React from 'react';
-import { WalletMinimal, Home } from "lucide-react-native";
+import { WalletMinimal, Home, UserCog } from "lucide-react-native";
 import { useAuth } from "~/context/AuthContext";
 
 export default function TabLayout() {
@@ -45,6 +45,16 @@ const MainLayout = () => {
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => (
                         <WalletMinimal color={color} size={size} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: "Perfil",
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <UserCog color={color} size={size} />
                     ),
                 }}
             />

@@ -26,7 +26,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.innsanowr.orca_mais_app"
     },
     "web": {
       "bundler": "metro",
@@ -39,6 +40,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "0cee64dd-7591-45ac-9cf4-c69f04225e91"
+      }
     }
   }
 }
