@@ -8,7 +8,10 @@ let failedRequestQueue: {
 }[] = [];
 
 const api = axios.create({
-  baseURL: "http://192.168.200.5:3000",
+  baseURL:
+    process.env.NODE_ENV === "production"
+      ? process.env.BASE_API_URL
+      : "http://192.168.200.5:3000",
 });
 
 api.interceptors.response.use(
