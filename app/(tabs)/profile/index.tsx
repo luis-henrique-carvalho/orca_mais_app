@@ -58,7 +58,7 @@ export default function ProfileScreen() {
                 <AvatarImage source={{ uri: user.avatar.url }} />
               ) : (
                 <AvatarFallback>
-                  <Text className="text-lg font-bold">{user.full_name[0]}</Text>
+                  <Text className="text-lg font-bold">{user?.full_name[0]}</Text>
                 </AvatarFallback>
               )}
             </Avatar>
