@@ -36,7 +36,7 @@ export default function EditTransactionScreen() {
     };
 
     return (
-        <SafeAreaView className="flex-1 p-4 " style={{ paddingTop: insets.top }}>
+        <SafeAreaView className="flex-1 p-4" style={{ paddingTop: insets.top }}>
             <Text className="text-2xl font-bold mb-4">Editar Transação</Text>
             <TransactionForm defaultValues={editValues} id={transaction.id} editCategory={transaction.category} />
         </SafeAreaView>

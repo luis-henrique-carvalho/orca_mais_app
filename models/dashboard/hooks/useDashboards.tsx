@@ -19,10 +19,8 @@ export function useDashboards(): UseDashboardsReturn {
     const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
     const [refreshing, setRefreshing] = useState(false);
 
-
     // ------------------- Fetching Functions -------------------
     const fetchDashboardData = useCallback(async () => {
-
         try {
             setLoading(true);
             const { data } = await api.get("/api/v1/dashboards")
