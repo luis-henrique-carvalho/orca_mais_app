@@ -89,7 +89,7 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                 </View>
 
                 <View>
-                    <Label className="font-semibold mb-1" nativeID="full_name">Nome Completo</Label>
+                    <Label nativeID="full_name">Nome Completo</Label>
                     <Controller
                         control={control}
                         name="full_name"
@@ -99,7 +99,7 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
-                                className={`border rounded-lg p-3 ${errors.full_name ? "border-destructive" : "border-primary"}`}
+
                             />
                         )}
                     />
@@ -107,7 +107,7 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                 </View>
 
                 <View>
-                    <Label className="font-semibold mb-1" nativeID="email">Email</Label>
+                    <Label nativeID="email">Email</Label>
                     <Controller
                         control={control}
                         name="email"
@@ -119,7 +119,6 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                                 value={value}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
-                                className={`border rounded-lg p-3 ${errors.email ? "border-destructive" : "border-primary"}`}
                             />
                         )}
                     />
@@ -127,7 +126,7 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                 </View>
 
                 <View>
-                    <Label className="font-semibold mb-1" nativeID="cpf">CPF</Label>
+                    <Label nativeID="cpf">CPF</Label>
                     <Controller
                         control={control}
                         name="cpf"
@@ -138,7 +137,6 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                                 onChangeText={onChange}
                                 value={value}
                                 keyboardType="numeric"
-                                className={`border rounded-lg p-3 ${errors.cpf ? "border-destructive" : "border-primary"}`}
                             />
                         )}
                     />
@@ -149,7 +147,7 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                     <ActivityIndicator size="large" color="#0000ff" />
                 ) : (
                     <>
-                        <Button onPress={handleSubmit(handleFormSubmit)} className="bg-primary p-3 rounded-lg flex items-center justify-center">
+                        <Button onPress={handleSubmit(handleFormSubmit)} variant={"default"}>
                             <Text className="font-bold">Salvar</Text>
                         </Button>
 
@@ -158,7 +156,6 @@ export default function UserForm({ defaultValues, onSubmit }: UserFormProps) {
                                 router.back();
                             }}
                             variant="outline"
-                            className="bg-secondary p-3 rounded-lg flex items-center justify-center"
                         >
                             <Text className="font-bold">Cancelar</Text>
                         </Button>

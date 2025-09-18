@@ -28,6 +28,8 @@ export default function EditProfileScreen() {
         );
     }
 
+    console.log(user)
+
     return (
         <SafeAreaView className="flex-1 p-4">
             <View className="mb-4">

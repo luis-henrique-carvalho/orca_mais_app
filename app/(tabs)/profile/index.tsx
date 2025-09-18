@@ -13,6 +13,8 @@ export default function ProfileScreen() {
   const { authStage } = useAuth();
   const router = useRouter();
 
+  console.log(user)
+
   useEffect(() => {
     if (authStage.user?.id) {
       fetchUser(authStage.user.id);
@@ -58,12 +60,14 @@ export default function ProfileScreen() {
                 <AvatarImage source={{ uri: user.avatar.url }} />
               ) : (
                 <AvatarFallback>
-                  <Text className="text-lg font-bold">{user?.full_name[0]}</Text>
+                  <Text className="text-lg font-bold">
+                    {user?.full_name?.[0] ?? user?.email?.[0] ?? "U"}
+                  </Text>
                 </AvatarFallback>
               )}
             </Avatar>
             <View>
-              <Text className="text-2xl font-bold">{user.full_name}</Text>
+              <Text className="text-2xl font-bold">{user?.full_name}</Text>
               <Text className="text-md text-muted-foreground">{user.email}</Text>
             </View>
           </View>

@@ -59,7 +59,7 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
             <ScrollView contentContainerStyle={{ gap: 10 }}>
                 {/* Campo Nome */}
                 <View>
-                    <Label className=" font-semibold mb-1">Nome</Label>
+                    <Label>Nome</Label>
                     <Controller
                         control={control}
                         name="name"
@@ -69,7 +69,6 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
-                                className={errors.name ? "border-destructive" : "border-primary"}
                             />
                         )}
                     />
@@ -78,7 +77,7 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
 
                 {/* Campo Valor */}
                 <View>
-                    <Label className=" font-semibold mb-1">Valor</Label>
+                    <Label>Valor</Label>
                     <Controller
                         control={control}
                         name="amount"
@@ -89,7 +88,6 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                                 onChangeText={(text) => onChange(Number(text))}
                                 value={value.toString()}
                                 keyboardType="decimal-pad"
-                                className={errors.amount ? "border-destructive" : "border-primary"}
                             />
                         )}
                     />
@@ -98,7 +96,7 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
 
                 {/* Campo Categoria */}
                 <View>
-                    <Label className=" font-semibold mb-1">Categoria</Label>
+                    <Label>Categoria</Label>
                     <Controller
                         control={control}
                         name="category_id"
@@ -113,7 +111,7 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
 
                 {/* Campo Description */}
                 <View>
-                    <Label className=" font-semibold mb-1">Descrição</Label>
+                    <Label>Descrição</Label>
                     <Controller
                         control={control}
                         name="description"
@@ -123,7 +121,6 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
-                                className={errors.description ? "border-destructive" : "border-primary"}
                             />
                         )}
                     />
@@ -132,7 +129,7 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
 
                 {/* Campo Tipo de Transação */}
                 <View>
-                    <Label className=" font-semibold mb-1">Tipo de Transação</Label>
+                    <Label>Tipo de Transação</Label>
                     <Controller
                         control={control}
                         name="transaction_type"
@@ -159,14 +156,16 @@ export default function TransactionForm({ defaultValues, id, editCategory }: Tra
                     {errors.transaction_type && <Text className="text-destructive text-xs mt-1">{errors.transaction_type.message}</Text>}
                 </View>
 
-                <Button onPress={handleSubmit(onSubmit)} className="bg-primary p-3 rounded-lg flex items-center justify-center">
+                <Button onPress={handleSubmit(onSubmit)} variant={"default"}>
                     <Text className=" font-bold">
                         {defaultValues ? "Editar Transação" : "Criar Transação"}
                     </Text>
                 </Button>
 
-                <Link href="/(tabs)/transactions" className="text-primary text-center mt-4">
-                    Voltar
+                <Link href="/(tabs)/transactions" asChild>
+                    <Button variant="outline">
+                        <Text className="font-bold">Voltar</Text>
+                    </Button>
                 </Link>
             </ScrollView>
         </TouchableWithoutFeedback >
